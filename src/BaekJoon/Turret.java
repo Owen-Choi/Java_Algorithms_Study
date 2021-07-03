@@ -31,6 +31,7 @@ class Turret {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int i;  int Xaxis1;  int Yaxis1;    int Xaxis2; int Yaxis2; int dist1;  int dist2;
+        // testcase 먼저 읽혀주기
         int testCase = Integer.parseInt(br.readLine());
         for(i = 0; i<testCase; i++){
             StringTokenizer st = new StringTokenizer(br.readLine(), " ");
