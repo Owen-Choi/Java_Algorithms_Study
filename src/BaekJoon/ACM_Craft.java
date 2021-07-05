@@ -3,77 +3,72 @@ package BaekJoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
-
+import java.util.*;
+import java.util.NoSuchElementException;
 public class ACM_Craft {
+    static int[] time;
+    static int BuildingNum;
+    public static void main(String[] args) throws IOException, NoSuchElementException {
+        int testCase;
+        int RuleNum;
+        int TargetBuilding = 0;
+        int[] vector;
+        int j = 0;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        testCase = Integer.parseInt(br.readLine());
 
-    static class Node{
-        private int data;
-        private Node next;
-        private boolean check;
-        public Node(int data){
-            this.data = data;
-        }
-        public Node(){
+        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+        BuildingNum = Integer.parseInt(st.nextToken());
+        RuleNum = Integer.parseInt(st.nextToken());
+
+        for(int i=0; i<testCase; i++){
+            StringTokenizer st1 = new StringTokenizer(br.readLine(), " ");
+            for(int k=1; k<=BuildingNum; k++)
+                time[k] = Integer.parseInt(st1.nextToken());
+
+            vector = new int[BuildingNum + 1];
+            time = new int[BuildingNum + 1];
+            List<List<Integer>> list = new ArrayList<List<Integer>>();
+
+            for(int k=0; k<BuildingNum + 1; k++)
+                list.add(new ArrayList<Integer>());
+
+            while(j < RuleNum){
+                StringTokenizer st2 = new StringTokenizer(br.readLine(), " ");
+
+                int c1 = Integer.parseInt(st2.nextToken());
+                int c2 = Integer.parseInt(st2.nextToken());
+
+                list.get(c1).add(c2);
+                vector[c2]++;
+                j++;
+            }
+            TargetBuilding = Integer.parseInt(br.readLine());
+            calc(vector, list, TargetBuilding);
         }
     }
+    static void calc(int[] vector, List<List<Integer>>list,int TargetBuilding){
+        Queue<Integer> queue = new LinkedList<Integer>();
+        int node;
+        int[] result = new int[BuildingNum + 1];        //왜 1을 더해주지?
+        for(int i=1; i<=BuildingNum; i++){
+            result[i] = time[i];
 
-    public static void main(String[] args) throws IOException {
-        int testCase;   int BuildingCount;  int RuleCount;  int i = 0;
-        int[] buildTime;    int RequiredBuilding;   int TargetBuilding; int FinalBuilding = 0;
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        Node[] table = null;
-        testCase = Integer.parseInt(br.readLine());
-        while(testCase > 0){
-            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-            BuildingCount = Integer.parseInt(st.nextToken());
-            // 체인 해쉬법을 이용하기 위해 table 선언
-            table = new Node[BuildingCount];
-            buildTime = new int[BuildingCount];
-            RuleCount = Integer.parseInt(st.nextToken());
-            StringTokenizer st1 = new StringTokenizer(br.readLine(), " ");
-            // 빌딩 건축 시간 입력받음
-            while(i < BuildingCount){
-                buildTime[i] = Integer.parseInt(st1.nextToken());
-            }
-            // 룰 입력받음
-            StringTokenizer st2 = new StringTokenizer(br.readLine(), " ");
-            while(RuleCount > 0){
-                RequiredBuilding = Integer.parseInt(st2.nextToken());
-                TargetBuilding = Integer.parseInt(st2.nextToken());
-                Node First = new Node(RequiredBuilding);
-                Node Second = new Node(TargetBuilding);
-                //체인 해쉬
-                if(table[RequiredBuilding] == null) {
-                    table[RequiredBuilding] = First;
-                    table[RequiredBuilding].next = Second;
-                }
-                else{
-                    Node ptr = table[RequiredBuilding];
-                    while(ptr.next != null){
-                        ptr = ptr.next;
-                    }
-                    ptr.next = Second;
-                }
-                RuleCount--;
-            }
-            FinalBuilding = Integer.parseInt(br.readLine());
-            testCase--;
+            if(vector[i] == 0)
+                queue.offer(i);
         }
 
-        Node CurrentBuilding = new Node();
-        while(CurrentBuilding.data != FinalBuilding){
-            for(int k = 0; k < FinalBuilding; k++){
-                if(table[k].next == null)
-                    continue;
-                else{
-                    Node ptr = table[k];
-                    while(ptr != null){
+        while(!queue.isEmpty()){
+            node = queue.poll();
+            for(int temp : list.get(node)){
+                result[temp] = Math.max(result[temp], result[node] + time[temp]);
+                vector[temp]--;
 
-                    }
-                }
+                if(vector[temp] == 0)
+                    queue.offer(temp);
             }
         }
 
+        System.out.println(result[TargetBuilding]);
     }
 }
