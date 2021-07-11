@@ -12,25 +12,25 @@ public class TwoXN_Tiling {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         input = Integer.parseInt(br.readLine());
-        flag = new boolean[input];
-        recur(0, 0);
-        System.out.println(TotalNum);
+        flag = new boolean[input * 2];
+        recur(0);
+        System.out.println(TotalNum % 10007);
     }
-    static void recur(int totalWidth, int i){
+    static void recur(int totalWidth){
         if(totalWidth >= input) {
             if(totalWidth == input)
                 TotalNum++;
             return;
         }
-
-        for(int k = i; k < input; k++){
-            if(flag[k])
-                totalWidth++;
-            else if(flag[k] == false) {
-                totalWidth += 2;
-            }
-
-
+        if(flag[totalWidth] == true){
+            totalWidth++;
+            recur(totalWidth);
         }
+        else {
+            totalWidth += 2;
+            recur(totalWidth);
+            flag[totalWidth] = true;
+        }
+
     }
 }
