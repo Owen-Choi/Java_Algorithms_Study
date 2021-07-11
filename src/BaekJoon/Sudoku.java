@@ -27,12 +27,14 @@ public class Sudoku {
     }
 
     static void recur(int i, int j){
-        for(int col=i; col<9; col++){
-            for(int raw = j; raw < 9; raw++){
-                checkCol(raw);
-                checkRaw(col);
-                if(col +1 % 3 == 0 && raw + 1 % 3 == 0)
-                    checkSquare(col, raw);
+        for(int col = i; col < 9; col++){
+            checkRaw(col);
+            checkCol(j);
+            if((col + 1) % 3 == 0 && (j + 1) % 3 == 0)
+                checkSquare(col, j);
+
+            for(int TJ = 0; TJ < 9; TJ++){
+                recur(col, TJ);
             }
         }
     }
@@ -77,24 +79,34 @@ public class Sudoku {
     // 사각형 체크
     static void checkSquare(int i, int j){
         int[][] exist = {{0,0,0}, {0,0,0}, {0,0,0}};
-
+        int p;
+        boolean[] tempArr = new boolean[9];
         int trueCount = 0;
         for(int TI = i; TI <= i+2; TI++){
             for(int TJ = j; TJ <= j+2; TJ++){
                 if(arr[TI][TJ] != 0){
                     exist[TI][TJ] = arr[TI][TJ];
+                    tempArr[arr[TI][TJ] - 1] = true;
                     trueCount++;
                 }
             }
         }
+        int TempTI, TempTJ;
+        TempTI = TempTJ = 0;
         if(trueCount == 8){
             for(int TI = i; TI <= i+2; TI++){
                 for(int TJ = j; TJ <= j+2; TJ++){
-                    if(exist[TI][TJ] != 0){
-                        arr[TI][TJ] = exist[TI][TJ];
+                    if(exist[TI][TJ] == 0){
+                        TempTI = TI;
+                        TempTJ = TJ;
                     }
                 }
             }
+            for(p=0; p<9; p++){
+                if(tempArr[p] == false)
+                    break;
+            }
+            arr[TempTI][TempTJ] = p+1;
         }
         else
             return;
