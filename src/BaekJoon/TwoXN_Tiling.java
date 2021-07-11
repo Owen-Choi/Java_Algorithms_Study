@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+// 11726번
 public class TwoXN_Tiling {
     static int input;
     static boolean flag[];
