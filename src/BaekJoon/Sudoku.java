@@ -7,7 +7,7 @@ import java.util.StringTokenizer;
 
 //2580번
 public class Sudoku {
-    static int[][] arr = new int[9][9];
+    static int[][] arr = new int[10][10];
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         for(int i=0; i<9; i++){
