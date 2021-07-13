@@ -30,12 +30,12 @@ public class Josephus {
                     count++;
                     tempIndex = index;
                     index++;
-                    if(index > N)
+                    if(index >= N)
                         index = index%(N);
                 }
-                else if(flag[arr[index]] = true){
+                else if(flag[arr[index]] == true){
                     index++;
-                    if(index > N)
+                    if(index >= N)
                         index = index%(N);
                 }
             }
