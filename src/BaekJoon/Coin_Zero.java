@@ -20,10 +20,12 @@ public class Coin_Zero {
             arr[i] = Integer.parseInt(br.readLine());
         }
         int index = N-1;
+        int times = 0;
         for(; K > 0; ){
             if(K >= arr[index]) {
-                TotalCount++;
-                K -= arr[index];
+                times = K/arr[index];
+                K -= arr[index] * times;
+                TotalCount += times;
             }
             else if( K < arr[index])
                 index--;
