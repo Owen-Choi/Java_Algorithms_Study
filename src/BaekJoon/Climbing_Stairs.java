@@ -6,35 +6,25 @@ import java.io.InputStreamReader;
 
 // 2579번
 public class Climbing_Stairs {
-    static int Input;
     static int[] arr;
-    public static void main(String[] args) throws IOException {
+    static int[] Max;
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        Input = Integer.parseInt(br.readLine());
-        arr = new int[Input + 3];
-        for(int i=1; i<=Input; i++)
+        int Input = Integer.parseInt(br.readLine());
+        arr = new int[Input + 1];
+        Max = new int[Input + 1];
+        for(int i=1; i<=Input; i++){
             arr[i] = Integer.parseInt(br.readLine());
-
-        System.out.println(recur(0, 0, 0));
-    }
-
-    static int recur(int index, int totalCount, int stepCount){
-
-        if(index >= Input){
-            if(index == Input)
-                return totalCount;
-            else
-                return 0;
         }
-
-        else if(stepCount == 2) {
-            int TemptotalCount = totalCount + arr[index + 2];
-            return recur(index + 2, TemptotalCount, 1);
+        Max[0] = arr[0];
+        Max[1] = arr[1];
+        if(Input >= 2)
+            Max[2] = arr[1] + arr[2];
+        if(Input >= 3)
+            Max[3] = Math.max(arr[1] + arr[3], arr[2] + arr[3]);
+        for(int i=4; i<=Input; i++){
+            Max[i] = Math.max(Max[i-2], Max[i-3] + arr[i-1]) + arr[i];
         }
-        else {
-            int Temp1 = totalCount + arr[index + 1];
-            int Temp2 = totalCount + arr[index + 2];
-            return Math.max(recur(index + 1, Temp1, ++stepCount), recur(index + 2, Temp2, 1));
-        }
+        System.out.println(Max[Input]);
     }
 }
