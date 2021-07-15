@@ -6,51 +6,26 @@ import java.io.InputStreamReader;
 
 // 1003번
 public class Fibonacci {
-    static int Zero_Count = 0;
-    static int One_Count = 0;
-    public static void main(String[] args) throws IOException {
+    static Integer[][] dp = new Integer[41][2];
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int TestCase = Integer.parseInt(br.readLine());
-        while(TestCase > 0){
-            TestCase--;
+        dp[0][0] = 1;
+        dp[0][1] = 0;
+        dp[1][0] = 0;
+        dp[1][1] = 1;
+        int Input = Integer.parseInt(br.readLine());
+        while(Input > 0) {
+            Input--;
             int num = Integer.parseInt(br.readLine());
-            if(num == 0) {
-                System.out.println("1 0");
-                continue;
-            }
-            else if(num == 1) {
-                System.out.println("0 1");
-                continue;
-            }
-            num = recur(num);
-            System.out.println(Zero_Count + " " + One_Count);
-            Zero_Count = One_Count = 0;
+            recur(num);
+            System.out.println(dp[num][0] + " " + dp[num][1]);
         }
     }
-    static int recur(int index) {
-        if (index == 3) {
-            Zero_Count += 1;
-            One_Count += 2;
-            return -1;
+    static Integer[] recur(int index){
+        if(dp[index][0] == null || dp[index][1] == null){
+            dp[index][0] = recur(index-1)[0] + recur(index-2)[0];
+            dp[index][1] = recur(index - 1)[1] + recur(index - 2)[1];
         }
-        if(index == 2) {
-            Zero_Count += 1;
-            One_Count += 1;
-            return -1;
-        }
-
-        if(index == 4){
-            Zero_Count += 2;
-            One_Count += 3;
-            return -1;
-        }
-
-        if(index == 5){
-            Zero_Count += 3;
-            One_Count += 5;
-            return -1;
-        }
-
-        return recur(index - 1) + recur(index - 2);
+        return dp[index];
     }
 }
