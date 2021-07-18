@@ -20,6 +20,24 @@ public class The_Longest_Increasing_Subsequence {
             arr[i] = Integer.parseInt(st.nextToken());
         }
 
+        for(int i=0; i<Input; i++)
+            recur(i);
+
+        int max = dp[0];
+        for(int i=1; i<Input; i++){
+            max = Math.max(max, dp[i]);
+        }
+        System.out.println(max);
     }
-    // 일단 보류. 다시 풀어보기
+    static int recur(int index){
+        if(dp[index] == null){
+            dp[index] = 1;
+            // i가 0일 경우 반복문에 한번도 안들어가서 IndexOutOfBound 오류가 발생하지 않는구나
+            for(int i=index-1; i>=0; i--){
+                if(arr[i] < arr[index])
+                dp[index] = Math.max(dp[index], recur(i) + 1);
+            }
+        }
+        return dp[index];
+    }
 }
