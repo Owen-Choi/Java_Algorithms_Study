@@ -11,33 +11,27 @@ public class The_Longest_Increasing_Subsequence {
     static int[] arr;
     static Integer[] dp;
     public static void main(String[] args) throws IOException {
-        BufferedReader br= new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Input = Integer.parseInt(br.readLine());
         arr = new int[Input];
         dp = new Integer[Input];
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        for(int i=0; i<Input; i++){
+        for (int i = 0; i < Input; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
+            dp[i] = 1;
         }
 
-        for(int i=0; i<Input; i++)
-            recur(i);
-
+        for(int i=0; i<Input; i++){
+            for(int k=i - 1; k>=0; k--){
+                if(arr[k] < arr[i]) {
+                    dp[i] = Math.max(dp[i], dp[k] + 1);
+                }
+            }
+        }
         int max = dp[0];
         for(int i=1; i<Input; i++){
             max = Math.max(max, dp[i]);
         }
         System.out.println(max);
-    }
-    static int recur(int index){
-        if(dp[index] == null){
-            dp[index] = 1;
-            // i가 0일 경우 반복문에 한번도 안들어가서 IndexOutOfBound 오류가 발생하지 않는구나
-            for(int i=index-1; i>=0; i--){
-                if(arr[i] < arr[index])
-                dp[index] = Math.max(dp[index], recur(i) + 1);
-            }
-        }
-        return dp[index];
     }
 }
