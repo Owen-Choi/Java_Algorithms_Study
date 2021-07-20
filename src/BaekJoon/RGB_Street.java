@@ -27,17 +27,19 @@ public class RGB_Street {
         dp[0][0] = arr[0][0];
         dp[0][1] = arr[0][1];
         dp[0][2] = arr[0][2];
-        System.out.println(Math.min(recur(houseNum - 1, RED), Math.min(recur(houseNum - 1, GREEN), recur(houseNum - 1, BLUE))));
-    }
-    static int recur(int index, int color){
-        if(dp[index][color] == null){
-            if(color == RED)
-                dp[index][color] = Math.min(recur(index-1, GREEN), recur(index-1, BLUE)) + arr[index][color];
-            if(color == GREEN)
-                dp[index][color] = Math.min(recur(index-1, RED), recur(index-1, BLUE)) + arr[index][color];
-            if(color == BLUE)
-                dp[index][color] = Math.min(recur(index-1, RED), recur(index-1, GREEN)) + arr[index][color];
+
+        for(int i=1; i < houseNum; i++){
+            for(int k = 0; k<3; k++){
+                if(dp[i][k] == null){
+                    if(k == RED)
+                        dp[i][k] = Math.min(dp[i-1][BLUE], dp[i-1][GREEN]) + arr[i][k];
+                    if(k == GREEN)
+                        dp[i][k] = Math.min(dp[i-1][RED], dp[i-1][BLUE]) + arr[i][k];
+                    if(k == BLUE)
+                        dp[i][k] = Math.min(dp[i-1][RED], dp[i-1][GREEN]) + arr[i][k];
+                }
+            }
         }
-        return dp[index][color];
+        System.out.println(Math.min(dp[houseNum - 1][RED], Math.min(dp[houseNum - 1][GREEN], dp[houseNum - 1][BLUE])));
     }
 }
