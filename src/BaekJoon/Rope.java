@@ -3,6 +3,8 @@ package BaekJoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+
 // 2217번
 public class Rope {
     static int RopeNum;
@@ -15,15 +17,10 @@ public class Rope {
         for(int i=0; i<RopeNum; i++){
             arr[i] = Integer.parseInt(br.readLine());
         }
-        int Count = 0;
+        Arrays.sort(arr);
         for(int i=0; i<RopeNum; i++){
-            Count = 0;
-            for(int k=0; k<RopeNum; k++){
-                if(arr[i] <= arr[k]) {
-                    Count++;
-                }
-            }
-            MaxWeight = Math.max(MaxWeight, Count * arr[i]);
+            int totalWeight = arr[i] * (arr.length - i);
+            MaxWeight = Math.max(MaxWeight, totalWeight);
         }
         System.out.println(MaxWeight);
     }
