@@ -7,30 +7,22 @@ import java.io.InputStreamReader;
 public class Pinary_Number {
     static int Input;
     static Integer[] dp;
-    static int Num = 0;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Input = Integer.parseInt(br.readLine());
-        dp = new Integer[Input];
-        /*dp[Input-1] = 0;
+        dp = new Integer[Input + 1];
+        dp[0] = 0;
+        dp[1] = 1;
         if(Input > 1)
-            dp[Input - 2] = 1;
+            dp[2] = 1;
         if(Input > 2)
-            dp[Input - 3] = 2;*/
-        recur(0, false);
-        System.out.println(Num - 1);
+            dp[3] = 2;
+        System.out.println(recur(Input));
     }
-    static void recur(int Index, boolean pre) {
-        if(Index == Input - 1)
-            Num++;
-        else{
-            if(pre)
-                recur(Index + 1, false);
-            else{
-                recur(Index + 1, true);
-                recur(Index + 1, false);
-            }
-
+    static int recur(int Index) {
+        if(dp[Index] == null){
+            dp[Index] = recur(Index - 1) + (Index-2);
         }
+        return dp[Index];
     }
 }
