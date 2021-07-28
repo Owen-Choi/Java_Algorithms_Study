@@ -19,14 +19,16 @@ public class Wine_Trying {
         }
         dp[0] = 0;
         dp[1] = arr[1];
-        if(Input > 1)
+        if(Input > 1){
             dp[2] = arr[1] + arr[2];
-        System.out.println(recur(Input));
-    }
-    static int recur(int index) {
-        if(dp[index] == null){
-            dp[index] = Math.max(Math.max(recur(index-2), recur(index-3) + arr[index-1]) + arr[index], recur(index-1));
         }
-        return dp[index];
+        System.out.println(recur(Input));
+
+    }
+    static int recur(int Index) {
+        if(dp[Index] == null){
+            dp[Index] = Math.max(Math.max(recur(Index-3) + arr[Index-1], recur(Index-2)) + arr[Index], recur(Index - 1));
+        }
+        return dp[Index];
     }
 }
