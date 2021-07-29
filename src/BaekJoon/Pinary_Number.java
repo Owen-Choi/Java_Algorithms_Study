@@ -6,23 +6,21 @@ import java.io.InputStreamReader;
 // 2193번
 public class Pinary_Number {
     static int Input;
-    static Integer[] dp;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Input = Integer.parseInt(br.readLine());
-        dp = new Integer[Input + 1];
-        dp[0] = 0;
-        dp[1] = 1;
-        if(Input > 1)
-            dp[2] = 1;
-        if(Input > 2)
-            dp[3] = 2;
-        System.out.println(recur(Input));
-    }
-    static int recur(int Index) {
-        if(dp[Index] == null){
-            dp[Index] = recur(Index - 1) + (Index-2);
+        Long[][] dp = new Long[Input + 1][2];
+        dp[1][0] = 0l;
+        dp[1][1] = 1l;
+        for(int i=2; i<=Input; i++){
+            for(int j=0; j<2; j++){
+                if(j == 0)
+                    dp[i][j] = dp[i-1][0] + dp[i-1][1];
+                else
+                    dp[i][j] = dp[i-1][0];
+            }
         }
-        return dp[Index];
+        long result = dp[Input][0] + dp[Input][1];
+        System.out.println(result);
     }
 }
