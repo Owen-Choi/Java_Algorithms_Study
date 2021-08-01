@@ -11,6 +11,7 @@ public class DFS_And_BFS {
     static int StartVer;
     static ArrayList<Integer>[] list;
     static Queue<Integer> queue;
+    static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
@@ -18,7 +19,7 @@ public class DFS_And_BFS {
         Edge = Integer.parseInt(st.nextToken());
         StartVer = Integer.parseInt(st.nextToken());
         list = new ArrayList[Vertex + 1];
-        for(int i=0; i<Vertex; i++)
+        for(int i=1; i<=Vertex; i++)
             list[i] = new ArrayList<>();
         for(int i=0; i<Edge; i++){
             st = new StringTokenizer(br.readLine(), " ");
@@ -33,6 +34,8 @@ public class DFS_And_BFS {
             System.out.print(temp + " ");
         }
         System.out.println();
+        BFS(StartVer);
+        System.out.println(sb);
     }
     static void DFS(int vertex){
         if(list[vertex] == null)
@@ -44,6 +47,21 @@ public class DFS_And_BFS {
                 queue.add(list[vertex].get(i));
             DFS(list[vertex].get(i));
         }
+    }
+    static void BFS(int vertex){
+        Queue<Integer> Q = new LinkedList<>();
+        Q.offer(vertex);
+        while(!Q.isEmpty()){
+            int tempVal = Q.poll();
+            sb.append(tempVal); sb.append(" ");
+            if(list[tempVal] == null)
+                break;
+            for(int i=0; i<list[tempVal].size(); i++){
+                if(!Q.contains(list[tempVal].get(i)))
+                Q.offer(list[tempVal].get(i));
+            }
+        }
+        sb.append("\n");
     }
 
 }
