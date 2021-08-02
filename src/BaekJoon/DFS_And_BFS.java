@@ -45,6 +45,8 @@ public class DFS_And_BFS {
         for(int i=0; i<list[vertex].size(); i++){
             if(!queue.contains(list[vertex].get(i)))
                 queue.add(list[vertex].get(i));
+            else if(list[list[vertex].get(i)] != null)
+                queue.add(vertex);
             DFS(list[vertex].get(i));
         }
     }
