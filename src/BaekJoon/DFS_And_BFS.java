@@ -26,11 +26,12 @@ public class DFS_And_BFS {
             int tempVertex = Integer.parseInt(st.nextToken());
             int tempDes = Integer.parseInt(st.nextToken());
             list[tempVertex].add(tempDes);
+            list[tempDes].add(tempVertex);
         }
         queue = new LinkedList<>();
         queue.offer(StartVer);
         DFS(StartVer);
-        for(Integer temp : queue){
+        for(int temp : queue){
             System.out.print(temp + " ");
         }
         System.out.println();
@@ -38,29 +39,28 @@ public class DFS_And_BFS {
         System.out.println(sb);
     }
     static void DFS(int vertex){
-        if(list[vertex] == null)
-            return;
 
         list[vertex].sort(Comparator.naturalOrder());
         for(int i=0; i<list[vertex].size(); i++){
-            if(!queue.contains(list[vertex].get(i)))
+            if(!queue.contains(list[vertex].get(i))) {
                 queue.add(list[vertex].get(i));
-            else if(list[list[vertex].get(i)] != null)
-                queue.add(vertex);
-            DFS(list[vertex].get(i));
+                DFS(list[vertex].get(i));
+            }
         }
     }
     static void BFS(int vertex){
         Queue<Integer> Q = new LinkedList<>();
+        boolean[] ForCheck = new boolean[Vertex + 1];
+        ForCheck[vertex] = true;
         Q.offer(vertex);
         while(!Q.isEmpty()){
             int tempVal = Q.poll();
             sb.append(tempVal); sb.append(" ");
-            if(list[tempVal] == null)
-                break;
             for(int i=0; i<list[tempVal].size(); i++){
-                if(!Q.contains(list[tempVal].get(i)))
-                Q.offer(list[tempVal].get(i));
+                if(!ForCheck[list[tempVal].get(i)]) {
+                    ForCheck[list[tempVal].get(i)] = true;
+                    Q.offer(list[tempVal].get(i));
+                }
             }
         }
         sb.append("\n");
