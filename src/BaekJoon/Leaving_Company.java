@@ -3,45 +3,39 @@ package BaekJoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 // 14501번
 public class Leaving_Company {
     static int Input;
-    static Node[] arr;
-    static Integer[] dp;
+    static int[][] arr;
+    static int[] dp;
+    static final int END_DATE = 0;
+    static final int VALUE = 1;
     public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         Input = Integer.parseInt(br.readLine());
-        arr = new Node[Input + 1];
-        dp = new Integer[Input + 1];
-        dp[0] = 0;
-        arr[0] = new Node(0,0);
+        arr = new int[Input + 1][2];
+        dp = new int[Input + 1];
+        for(int i = 1; i<=Input; i++){
+            StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+            arr[i][END_DATE] = Integer.parseInt(st.nextToken());
+            arr[i][VALUE] = Integer.parseInt(st.nextToken());
+        }
+        int tempVal;
         for(int i=1; i<=Input; i++){
-            StringTokenizer st = new StringTokenizer(br.readLine()," ");
-            arr[i] = new Node(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
-        }
-        dp[1] = arr[1].Value;
-        recur(Input);
-        System.out.println(dp[Input]);
-    }
-    private static int recur(int index) {
-        // 상담이 가능한 범위
-        if(dp[index] == null) {
-            if (index + arr[index].End_Date <= Input + 1 && index - arr[index].End_Date >= 0) {
-                dp[index] = Math.max(recur(index - arr[index].End_Date) + arr[index].Value, recur(index - 1));
-            } else {   //날짜가 초과되는 상담은 건너뜀
-                recur(index - 1);
+            tempVal = 0;
+            for(int k=i; k<=Input; k = arr[k][END_DATE] == 1 ? k + 1 : k + arr[k][END_DATE]){
+                if(k + arr[k][END_DATE] > Input + 1)
+                    continue;
+                tempVal += arr[k][VALUE];
             }
+            dp[i] = tempVal;
         }
-        return dp[index];
+
+        Arrays.sort(dp);
+        System.out.println(dp[dp.length - 1]);
     }
-    private static class Node{
-        int End_Date;
-        int Value;
-        private Node(int End_Date, int Value){
-            this.End_Date = End_Date;
-            this.Value = Value;
-        }
-    }
+
 }
