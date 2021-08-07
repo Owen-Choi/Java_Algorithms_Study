@@ -3,74 +3,61 @@ package BaekJoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 // 2178번
 public class Maze_Searching {
     static int N;
     static int M;
     static int [][] arr;
-    static int [][] temp;
-    static int Min = Integer.MAX_VALUE - 1000;
+    static int [] Change_CoX = {-1,0,1,0};
+    static int [] Change_CoY = {0,-1,0,1};
+    static boolean [][] check;
         public static void main(String[] args) throws IOException {
             BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
             StringTokenizer st = new StringTokenizer(br.readLine(), " ");
             N = Integer.parseInt(st.nextToken());
             M = Integer.parseInt(st.nextToken());
             arr = new int[N + 1][M + 1];
-            boolean[][] check = new boolean[N + 1][M + 1];
-            temp = new int[N+1][M+1];
+            check = new boolean[N + 1][M + 1];
             for(int i = 0; i<N; i++){
                 String line = br.readLine();
                 for(int k = 0; k<M; k++){
                     arr[i][k] = Integer.parseInt(String.valueOf(line.charAt(k)));
-                    temp[i][k] = Integer.MAX_VALUE - 1000;
                 }
             }
-            check[N-1][M-1] = true;
-            temp[N-1][M-1] = 1;
-            recur(N - 1, M - 1, check);
-            System.out.println(Min);
+            check[0][0] = true;
+            BFS(0,0);
+            System.out.println(arr[N-1][M-1]);
         }
+    static void BFS(int X, int Y) {
+        Queue<Coordinate> queue = new LinkedList<>();
+        queue.offer(new Coordinate(X,Y));
+        while(!queue.isEmpty()) {
+            Coordinate Temp = queue.poll();
+            for(int i=0; i<4; i++) {
+               int next_X = Temp.x + Change_CoX[i];
+               int next_Y = Temp.y + Change_CoY[i];
 
-        static void recur(int raw, int col, boolean[][] check){
-            // 일단 범위에 속해야 확인을 함
-
-            if(raw == 0 && col == 0){
-                Min = Math.min(temp[0][0], Min);
-                return;
-            }
-
-            if (raw + 1 <= N) {
-                if (arr[raw + 1][col] == 1 && !check[raw + 1][col]) {
-                    check[raw + 1][col] = true;
-                    temp[raw+1][col] = temp[raw][col] + 1;
-                    recur(raw + 1, col, check);
-                    check[raw + 1][col] = false;
-                }
-            }
-            if (col + 1 <= M) {
-                if (arr[raw][col + 1] == 1 && !check[raw][col + 1]) {
-                    check[raw][col + 1] = true;
-                    temp[raw][col + 1] = temp[raw][col]+ 1;
-                    recur(raw, col + 1, check);
-                    check[raw][col + 1] = false;
-                }
-            }
-            if (raw - 1 >= 0) {
-                if (arr[raw - 1][col] == 1 && !check[raw - 1][col]) {
-                    check[raw - 1][col] = true;
-                    temp[raw-1][col] = temp[raw][col] + 1;
-                    recur(raw - 1, col, check);
-                    check[raw - 1][col] = false;
-                }
-            }
-            if (col - 1 >= 0) {
-                if (arr[raw][col - 1] == 1 && !check[raw][col - 1]) {
-                    check[raw][col - 1] = true;
-                    temp[raw][col-1] = temp[raw][col] + 1;
-                    recur(raw, col - 1, check);
-                    check[raw][col - 1] = false;
-                }
+               if(next_X >= N || next_X < 0 || next_Y >= M || next_Y < 0){
+                   continue;
+               }
+               if(check[next_X][next_Y] || arr[next_X][next_Y] == 0) {
+                   continue;
+               }
+               queue.add(new Coordinate(next_X, next_Y));
+               arr[next_X][next_Y] = arr[Temp.x][Temp.y] + 1;
+               check[Temp.x][Temp.y] = true;
             }
         }
+    }
+    private static class Coordinate{
+            int x;
+            int y;
+            public Coordinate(int x, int y) {
+                this.x = x;
+                this.y = y;
+            }
+    }
 }
