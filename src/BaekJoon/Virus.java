@@ -30,6 +30,7 @@ public class Virus {
             Start = Integer.parseInt(st.nextToken());
             Finish = Integer.parseInt(st.nextToken());
             list[Start - 1].add(Finish - 1);
+            list[Finish - 1].add(Start-1);
         }
         DFS();
         System.out.println(TotalNum);
@@ -42,7 +43,7 @@ public class Virus {
         }
         while(!queue.isEmpty()) {
             int temp = queue.poll();
-            if(!check[temp]){
+            if(!check[temp] && temp != 0){
                 check[temp] = true;
                 TotalNum++;
                 for(k = 0; k<list[temp].size(); k++){
