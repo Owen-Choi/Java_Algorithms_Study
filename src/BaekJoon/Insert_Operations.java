@@ -28,36 +28,32 @@ public class Insert_Operations {
         operations[MINUS_NUM] = Integer.parseInt(st.nextToken());
         operations[MULTIPLE_NUM] = Integer.parseInt(st.nextToken());
         operations[DIVIDE_NUM] = Integer.parseInt(st.nextToken());
-        recur(0, 0, 0);
+        recur(1, arr[0]);
         System.out.println(MAX);
         System.out.println(MIN);
     }
     // index는 연산자 배열의 인덱스
-    static void recur(int Count, int Value, int index){
+    static void recur(int Count, int Value){
         if(Count == N){
             MIN = Math.min(MIN, Value);
             MAX = Math.max(MAX, Value);
             return;
         }
         for(int i=0; i<4; i++){
-            if(Count == 0){
-                recur(Count+1, arr[0], i);
-            }
-            else{
                 if(operations[i] > 0){
                     if(i == PLUS_NUM){
                         operations[PLUS_NUM]--;
-                        recur(Count+1, Value + arr[Count], i);
+                        recur(Count+1, Value + arr[Count]);
                         operations[PLUS_NUM]++;
                     }
                     else if(i == MINUS_NUM){
                         operations[MINUS_NUM]--;
-                        recur(Count+1, Value - arr[Count], i);
+                        recur(Count+1, Value - arr[Count]);
                         operations[MINUS_NUM]++;
                     }
                     else if(i == MULTIPLE_NUM){
                         operations[MULTIPLE_NUM]--;
-                        recur(Count+1, Value * arr[Count], i);
+                        recur(Count+1, Value * arr[Count]);
                         operations[MULTIPLE_NUM]++;
                     }
                     else if(i == DIVIDE_NUM){
@@ -66,15 +62,14 @@ public class Insert_Operations {
                             Value *= -1;
                             Value = Value / arr[Count];
                             Value *= -1;
-                            recur(Count+1, Value, i);
+                            recur(Count+1, Value);
                         }
                         else{
-                            recur(Count+1, Value / arr[Count], i);
+                            recur(Count+1, Value / arr[Count]);
                         }
                         operations[DIVIDE_NUM]++;
                     }
                 }
-            }
         }
     }
 }
