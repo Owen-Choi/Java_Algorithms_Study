@@ -3,44 +3,49 @@ package BaekJoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 
 public class Cables_Of_Utility_Poles {
     static int N;
-    static int[] A, B;
+    static final int A = 0;
+    static final int B = 1;
+    static int[][] arr;
     static Integer[] dp;
-    public static void main(String[] args) throws IOException {
+    static int Max = -1;
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        A = new int[500];
-        B = new int[500];
-        dp = new Integer[N+1];
+        arr = new int[N][2];
+        dp = new Integer[N];
         StringTokenizer st;
-        int First, Last;
         for(int i=0; i<N; i++){
             st = new StringTokenizer(br.readLine()," ");
-            First = Integer.parseInt(st.nextToken());
-            Last = Integer.parseInt(st.nextToken());
-            A[First] = Last;
-            B[Last] = First;
+            arr[i][A] = Integer.parseInt(st.nextToken());
+            arr[i][B] = Integer.parseInt(st.nextToken());
         }
-        dp[1] = 1;
-        System.out.println(N - recur(N));
+        // 2차원 배열을 오름차순으로 정렬하는 방법
+        Arrays.sort(arr, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
+        for(int i=0; i<N; i++) {
+           Max = Math.max(Max, recur(i));
+        }
+        System.out.println(N - Max);
     }
     static int recur(int index){
         if(dp[index] == null){
-            for(int i=index; i>=1; i--){
-                if(A[index] < A[i]) {
-                    if(A[index] == 0)
-                        dp[index] = recur(index - 1);
-                    else
-                        dp[index] = Math.max(recur(index - 1) + 1, recur(i));
+            dp[index] = 1;
+            for(int i=index+1; i<N; i++){
+                if(arr[index][B] < arr[i][B]){
+                    dp[index] = Math.max(dp[index], recur(i) + 1);
                 }
             }
-            if(dp[index] == null)
-                dp[index] = recur(index - 1) + 1;
         }
-        System.out.println(A[index] + " : " + dp[index]);
         return dp[index];
     }
 }
