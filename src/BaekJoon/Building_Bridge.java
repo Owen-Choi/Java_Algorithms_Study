@@ -31,6 +31,6 @@ public class Building_Bridge {
         if(Y == 0 || X == Y)
             return dp[X][Y] = 1;
 
-        return recur(X-1, Y-1) + recur(X-1, Y);
+        return dp[X][Y] = recur(X-1, Y-1) + recur(X-1, Y);
     }
 }
