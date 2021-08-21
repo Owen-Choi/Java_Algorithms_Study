@@ -20,36 +20,17 @@ public class NGE {
         }
         Stack<Integer> stack = new Stack<>();
         for(int i=0; i<N; i++) {
-            if(stack.isEmpty()) {
-                stack.push(i);
-                continue;
+            while(!stack.isEmpty() && arr[stack.peek()] < arr[i]) {
+                arr[stack.pop()] = arr[i];
             }
-            if(arr[stack.peek()] > arr[i]) {
-                stack.push(i);
-            }
-            else if(arr[stack.peek()] < arr[i]) {
-                int temp = i;
-                while(!stack.isEmpty()) {
-                    if(arr[stack.peek()] < arr[temp]) {
-                        result[stack.peek()] = arr[temp];
-                    }
-                    else if(arr[stack.peek()] < arr[i]) {
-                        result[stack.peek()] = arr[i];
-                    }
-                    else{
-                        result[stack.peek()] = -1;
-                    }
-                    temp = stack.pop();
-                }
-                stack.push(i);
-            }
+            stack.push(i);
         }
         if(!stack.isEmpty()) {
             while(!stack.isEmpty()) {
-                result[stack.pop()] = -1;
+                arr[stack.pop()] = -1;
             }
         }
-        for(int temp : result) {
+        for(int temp : arr) {
             bw.write(temp + " ");
         }
         bw.flush();
