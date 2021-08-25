@@ -22,7 +22,7 @@ public class Circular_Queue {
         for(int i=0; i<M; i++)
             target[i] = Integer.parseInt(st.nextToken());
 
-        int Iterator = 0, temp;
+        int Iterator = 0, temp, size;
         while(Iterator < M) {
             if(deque.peek() == target[Iterator]) {
                 deque.poll();
@@ -30,9 +30,13 @@ public class Circular_Queue {
                 continue;
             }
             temp = deque.indexOf(target[Iterator]);
-            if(temp < deque.size() / 2) {        //이 경우 뒤로 둘아가는 것 보단 앞으로 가는 것이 더 빠름
+            if(deque.size() % 2 != 0)
+                size = deque.size() / 2 + 1;
+            else
+                size = deque.size() / 2;
+
+            if(temp < size) {        //이 경우 뒤로 둘아가는 것 보단 앞으로 가는 것이 더 빠름
                 while(deque.peekFirst() != target[Iterator]) {
-                    System.out.println(deque.peek() + "is first");
                     deque.addLast(deque.poll());
                     Result++;
                 }
@@ -40,11 +44,11 @@ public class Circular_Queue {
             }
             else {
                 while(deque.peekLast() != target[Iterator]) {
-                    System.out.println(deque.peekLast() + "is last");
                     deque.addFirst(deque.pollLast());
                     Result++;
                 }
                 deque.pollLast();
+                Result++;
             }
             Iterator++;
         }
