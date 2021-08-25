@@ -34,25 +34,42 @@ public class AC {
             // 입력부
             //연산부
             reverse = false;
-            sb.append("[");
             for(int i=0; i<Sen.length(); i++) {
                 if(Sen.charAt(i) == 'R')
                     reverse = !reverse;
                 if(Sen.charAt(i) == 'D') {
                     if(deque.isEmpty()) {
-
                         sb.append("error").append('\n');
                         Error = true;
                         break;
+                    }
+                    else{
+                        if(reverse)
+                            deque.pollLast();
+                        else
+                            deque.poll();
                     }
                 }
             }
             if(Error) {
                 Error = false;
-                continue;
             }
-            sb.deleteCharAt(sb.length()-1);
-            sb.append("]").append('\n');
+            else{
+                sb.append('[');
+                if(reverse) {
+                    sb.append(deque.pollLast());
+                    while (!deque.isEmpty()) {
+                        sb.append(',').append(deque.pollLast());
+                    }
+                }
+                else {
+                    sb.append(deque.pollFirst());
+                    while (!deque.isEmpty()) {
+                        sb.append(',').append(deque.pollFirst());
+                    }
+                }
+                sb.append(']').append('\n');
+            }
         }
         bw.write(sb.toString());
         bw.flush();
