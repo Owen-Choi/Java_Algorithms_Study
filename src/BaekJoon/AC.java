@@ -54,21 +54,24 @@ public class AC {
             if(Error) {
                 Error = false;
             }
-            else{
+            else {
                 sb.append('[');
-                if(reverse) {
-                    sb.append(deque.pollLast());
-                    while (!deque.isEmpty()) {
-                        sb.append(',').append(deque.pollLast());
+                if (deque.size() > 0) {
+                    if (reverse) {
+                        sb.append(deque.pollLast());
+                        while (!deque.isEmpty()) {
+                            sb.append(',').append(deque.pollLast());
+                        }
+                    } else {
+                        sb.append(deque.pollFirst());
+                        while (!deque.isEmpty()) {
+                            sb.append(',').append(deque.pollFirst());
+                        }
                     }
+                    sb.append(']').append('\n');
                 }
-                else {
-                    sb.append(deque.pollFirst());
-                    while (!deque.isEmpty()) {
-                        sb.append(',').append(deque.pollFirst());
-                    }
-                }
-                sb.append(']').append('\n');
+                else
+                    sb.append(']').append('\n');
             }
         }
         bw.write(sb.toString());
