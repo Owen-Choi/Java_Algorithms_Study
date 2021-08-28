@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 public class Number_Card_2 {
     static int N,M, targetNum = 0;
     static int[] arr;
+    static int left, right, mid;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -20,9 +21,10 @@ public class Number_Card_2 {
         M = Integer.parseInt(br.readLine());
         st = new StringTokenizer(br.readLine()," ");
         // 입력부 끝
+        int input;
         for(int i=0; i<M; i++) {
-            targetNum = 0;
-            check(Integer.parseInt(st.nextToken()));
+            input = Integer.parseInt(st.nextToken());
+            targetNum = Not_Equal(input) - Equal(input);
             sb.append(targetNum).append(' ');
         }
         bw.write(sb.toString());
@@ -30,33 +32,29 @@ public class Number_Card_2 {
         bw.close();
         br.close();
     }
-    static void check(int target) {
-        int left = 0, right = arr.length - 1, mid;
-        mid = (left+right)/2;
-        while(left <= right && mid <= right) {
-            if(target > arr[mid]) {
+    static int Equal(int targetNum) {
+        left = 0;
+        right = arr.length;
+
+        while(left < right) {
+            mid = (left + right) / 2;
+            if(targetNum <= arr[mid])
+                right = mid;
+            else
                 left = mid + 1;
-            }
-            else if(target < arr[mid]) {
-                right = mid - 1;
-            }
-            else if(target == arr[mid]){
-                targetNum++;
-                int temp = mid;
-                    while(temp > 0) {
-                        if(arr[--temp] != arr[mid])
-                            break;
-                        targetNum++;
-                    }
-                    temp = mid;
-                    while(temp < arr.length-1) {
-                        if(arr[++temp] != arr[mid])
-                            break;
-                        targetNum++;
-                    }
-                return;
-            }
-            mid = (left+right)/2;
         }
+        return left;
+    }
+    static int Not_Equal(int targetNum) {
+        left = 0;
+        right = arr.length;
+        while(left < right) {
+            mid = (left + right) / 2;
+            if(targetNum < arr[mid])
+                right = mid;
+            else
+                left = mid + 1;
+        }
+        return left;
     }
 }
