@@ -25,7 +25,7 @@ public class Cutting_LAN_Cable {
         long left, right, mid, temp;
         left = 1;
         right = cables[K-1];
-        while(left <= right) {
+        while(left < right) {
             temp = 0;
             mid = (left + right)/2;
             for(int i=0; i<K; i++) {

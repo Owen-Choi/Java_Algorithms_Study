@@ -33,21 +33,16 @@ public class The_Number_Of_Papers {
         // 여기까지 입력을 받음
         // 종이가 한 종류로만 통일되어있을 경우
         if(check(0,0, N)) {
-            if(arr[0][0] == -1) {
-                System.out.println(1);
-                System.out.println(0);
-                System.out.println(0);
-            }
-            else if(arr[0][0] == 0) {
-                System.out.println(0);
-                System.out.println(1);
-                System.out.println(0);
-            }
-            else {
-                System.out.println(0);
-                System.out.println(0);
-                System.out.println(1);
-            }
+            if(arr[0][0] == -1)
+                Minus++;
+            else if(arr[0][0] == 0)
+                Zero++;
+            else
+                One++;
+            System.out.println(Minus);
+            System.out.println(Zero);
+            System.out.println(One);
+            System.exit(0);
         }
         recur(0,0,N);
         System.out.println(Minus);
