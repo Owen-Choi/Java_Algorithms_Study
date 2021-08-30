@@ -1,6 +1,7 @@
 package BaekJoon;
 
 import java.io.*;
+import java.util.Collections;
 import java.util.PriorityQueue;
 
 // 1655번
@@ -13,16 +14,18 @@ public class Lets_Say_The_Middle {
         N = Integer.parseInt(br.readLine());
         int temp;
         PriorityQueue<Integer> MinHeap = new PriorityQueue<>();
-        PriorityQueue<Integer> MaxHeap = new PriorityQueue<>();
+        PriorityQueue<Integer> MaxHeap = new PriorityQueue<>(Collections.reverseOrder());
         while(N --> 0){
             temp = Integer.parseInt(br.readLine());
-            if(MinHeap.size() == MaxHeap.size()) {
-                if(temp > MinHeap.peek()) {
-
+            if(MinHeap.size() == MaxHeap.size())
+                MaxHeap.offer(temp);
+            else MinHeap.offer(temp);
+            if(!MinHeap.isEmpty() && !MaxHeap.isEmpty()) {
+                if(MaxHeap.peek() > MinHeap.peek()) {
+                    int T = MinHeap.poll();
+                    MinHeap.offer(MaxHeap.poll());
+                    MaxHeap.offer(T);
                 }
-            }
-            else {
-
             }
             sb.append(MaxHeap.peek()).append('\n');
         }
