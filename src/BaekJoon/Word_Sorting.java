@@ -16,6 +16,7 @@ public class Word_Sorting {
         for(int i=0; i<WordNum; i++)
             arr[i] = br.readLine();
         Arrays.sort(arr, new MyComparator());
+        // LinkedHashSet : Set의 형태로 중복을 제거하지만 순서는 지킨다.
         LinkedHashSet<String> hashSet = new LinkedHashSet<>(Arrays.asList(arr));
         String[] result = hashSet.toArray(new String[0]);
         for (String s : result) {
