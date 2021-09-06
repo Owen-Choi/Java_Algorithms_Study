@@ -48,7 +48,7 @@ public class Planting_Natural_Cabage {
         }
         return WormCount;
     }
-    // deep은 재귀로 해야하나?
+    // deep은 재귀로 돌린다.
     static void deep(int row, int col) {
         // IndexOutOfBounds 방지
         if(row < 0 || col < 0 || row >= RowMAX || col >= ColMAX)
