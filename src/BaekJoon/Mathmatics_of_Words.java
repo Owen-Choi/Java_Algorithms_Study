@@ -62,14 +62,28 @@ public class Mathmatics_of_Words {
         char[] temp;
         int sum = 0;
         StringBuilder sb;
-        for(int i=0; i<WordNum; i++) {
-            temp = arr[i].toCharArray();
+        // 단어가 하나라면
+        if(WordNum == 1) {
             sb = new StringBuilder();
-            for(int k=0; k<temp.length; k++) {
-                sb.append(Alphabets[temp[k] - 'A']);
+            temp = arr[0].toCharArray();
+            for (char c : temp) {
+                if(Alphabets[c - 'A'] == null)
+                    Alphabets[c - 'A'] = giveNum--;
+                sb.append(Alphabets[c - 'A']);
             }
-            sum += Integer.parseInt(sb.toString());
+            System.out.println(sb);
+            System.exit(0);
         }
-        System.out.println(sum);
+        else {
+            for (int i = 0; i < WordNum; i++) {
+                temp = arr[i].toCharArray();
+                sb = new StringBuilder();
+                for (int k = 0; k < temp.length; k++) {
+                    sb.append(Alphabets[temp[k] - 'A']);
+                }
+                sum += Integer.parseInt(sb.toString());
+            }
+            System.out.println(sum);
+        }
     }
 }
