@@ -30,8 +30,17 @@ public class Making_Password {
     static void Find(int index, String sen, boolean checked) {
         if(sen.length() == PwLenght) {
             // 모음을 포함하는지 여부를 check
-            if(checked)
-                sb.append(sen).append('\n');
+            if(checked) {
+                int tempCount = 0;
+                for(int i=0; i<sen.length(); i++) {
+                    if(!checkForVowel(sen.charAt(i)))
+                        tempCount++;
+                }
+                if(tempCount >= 2)
+                    sb.append(sen).append('\n');
+                else
+                    return;
+            }
             else
                 return;
         }
