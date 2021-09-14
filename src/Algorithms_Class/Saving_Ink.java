@@ -62,6 +62,7 @@ public class Saving_Ink {
         Node tempNode;
         while(!list.isEmpty()) {
             tempNode = list.poll();
+            //check for cycle and if there isn't, update sum value and make parent index same
             if(!checkForCycle(tempNode.Start, tempNode.Dest)) {
                 sumValue += tempNode.Dist;
                 MergeParent(tempNode.Start, tempNode.Dest);
@@ -69,6 +70,7 @@ public class Saving_Ink {
         }
         System.out.println(sumValue);
     }
+    //class for nodes
     static class Node {
         int Start, Dest;
         double Dist;
@@ -78,16 +80,20 @@ public class Saving_Ink {
             this.Dist = Dist;
         }
     }
+    // method that returns the parent's index
     static int getParent(int IndexForCheck) {
         if(parent[IndexForCheck] == IndexForCheck)
             return IndexForCheck;
         return parent[IndexForCheck] = getParent(parent[IndexForCheck]);
     }
+    // method that returns boolean value :: if there is cycle, then return true, and we don't have to
+    // :: update sum value and merge parent
     static boolean checkForCycle(int FirstIndex, int SecondIndex) {
         FirstIndex = getParent(FirstIndex);
         SecondIndex = getParent(SecondIndex);
         return FirstIndex == SecondIndex;
     }
+    // make parent array's value to prevent cycle
     static void MergeParent(int FirstIndex, int SecondIndex) {
         FirstIndex = getParent(FirstIndex);
         SecondIndex = getParent(SecondIndex);
