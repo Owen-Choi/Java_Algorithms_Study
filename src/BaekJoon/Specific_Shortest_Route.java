@@ -14,6 +14,7 @@ public class Specific_Shortest_Route {
     static ArrayList<Node>[] list;
     static final int INF = 200000000;
     static int[] distance;
+    static boolean[] flag;
     static PriorityQueue<Node> queue;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -22,6 +23,7 @@ public class Specific_Shortest_Route {
         Edge = Integer.parseInt(st.nextToken());
         distance = new int[Vertex + 1];
         list = new ArrayList[Vertex + 1];
+        flag = new boolean[Vertex + 1];
         for(int i=0; i<=Vertex; i++)
             list[i] = new ArrayList<>();
         int tempDest, tempDist, tempStart;
@@ -53,16 +55,20 @@ public class Specific_Shortest_Route {
     }
     static int Dijkstra(int StartIndex, int FinishIndex) {
         Arrays.fill(distance, INF);
+        Arrays.fill(flag, false);
         queue = new PriorityQueue<>();
         queue.add(new Node(StartIndex, 0));
         Node tempNode;
         int tempDest, tempDist;
+        distance[StartIndex] = 0;
         while(!queue.isEmpty()) {
             tempNode = queue.poll();
+            if(flag[tempNode.Destination]) continue;
+            flag[tempNode.Destination] = true;
             for(int i=0; i<list[tempNode.Destination].size(); i++) {
                 tempDest = list[tempNode.Destination].get(i).Destination;
                 tempDist = list[tempNode.Destination].get(i).Distance + tempNode.Distance;
-                if(distance[tempDest] > tempDist) {
+                if(!flag[tempDest] && distance[tempDest] > tempDist) {
                     distance[tempDest] = tempDist;
                     queue.add(new Node(tempDest, tempDist));
                 }
