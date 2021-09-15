@@ -8,20 +8,20 @@ import java.util.*;
 // 1197번
 // Kruskal MST ::
 public class Minimum_Spanning_Tree {
-    static int VertexNum, EdgeNum;
+    static int EdgeNum, VertexNum;
     static int[] parent;
     static LinkedList<Node> list = new LinkedList<>();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine()," ");
-        EdgeNum = Integer.parseInt(st.nextToken());
         VertexNum = Integer.parseInt(st.nextToken());
-        parent = new int[EdgeNum + 1];
-        for(int i=0; i<VertexNum; i++) {
+        EdgeNum = Integer.parseInt(st.nextToken());
+        parent = new int[VertexNum + 1];
+        for(int i=0; i<EdgeNum; i++) {
             st = new StringTokenizer(br.readLine()," ");
             list.add(new Node(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())));
         }
-        for(int i=1; i<=EdgeNum; i++)
+        for(int i = 1; i<= VertexNum; i++)
             parent[i] = i;
         Collections.sort(list, new Comparator<Node>() {
             @Override
