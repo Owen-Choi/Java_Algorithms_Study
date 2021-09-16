@@ -3,7 +3,6 @@ package Algorithms_Class;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class The_Cheapest_Way {
@@ -25,16 +24,111 @@ public class The_Cheapest_Way {
         }
         // Input ends :: 일단 Java에서는 파일 입출력을 하지 않게끔 구현했다.
         dp[0][0] = 0;
-        Solve(Row, Col, Row, Col);
-        for(int i=1; i<=Row; i++) {
-            for(int k=1; k<=Col; k++) {
-                System.out.print(dp[i][k] + " ");
+        //Solve(Row, Col, Row, Col);
+        Solve();
+        FindIndex(Row, Col);
+        System.out.println(dp[Row][Col]);
+    }
+    // Bottom-up approach ::
+    // to find Cheapest way ::
+    static void Solve() {
+        int tempUpper, tempDown, tempLeft;
+        int Min;
+        for(int k=1; k<=Row; k++)
+            dp[k][1] = Input[k][1];
+        for(int k=2; k<=Col; k++) {
+            for(int i=1; i<=Row; i++) {
+                if(i == 1 || i == Row) {
+                    if(i == 1) {
+                        tempUpper = dp[Row][k - 1];
+                        tempDown = dp[i + 1][k - 1];
+                    }
+                    else {
+                        tempUpper = dp[Row - 1][k - 1];
+                        tempDown = dp[1][k - 1];
+                    }
+                }
+                else{
+                    tempUpper = dp[i-1][k-1];
+                    tempDown = dp[i+1][k-1];
+                }
+                tempLeft = dp[i][k-1];
+                Min = Math.min(tempUpper, tempDown);
+                Min = Math.min(Min, tempLeft);
+                dp[i][k] = Min + Input[i][k];
             }
-            System.out.println();
         }
     }
-    // 재귀로 구현
-    static int Solve(int row, int col, int prevRow, int prevCol) {
+    // Trace Index Value in Completed-dp array ::
+    static void FindIndex(int ChangedRow, int ChangedCol) {
+        int[] IndexArr = new int[Col];
+        int tempUpper, tempDown, tempLeft, Min, iter = 0;
+        while(ChangedRow > 0 && ChangedCol > 0) {
+            if(ChangedCol == 1) {
+                IndexArr[iter++] = dp[ChangedRow][ChangedCol];
+                break;
+            }
+            if(ChangedRow == Row || ChangedRow == 1) {
+                if(ChangedRow == 1) {
+                    tempUpper = dp[Row][ChangedCol - 1];
+                    tempDown = dp[2][ChangedCol - 1];
+                }
+                else {
+                    tempUpper  = dp[ChangedRow - 1][ChangedCol - 1];
+                    tempDown = dp[1][ChangedCol - 1];
+                }
+            }
+            else {
+                tempUpper = dp[ChangedRow - 1][ChangedCol - 1];
+                tempDown = dp[ChangedRow + 1][ChangedCol - 1];
+            }
+            tempLeft = dp[ChangedRow][ChangedCol - 1];
+            Min = Math.min(tempUpper, tempDown);
+            Min = Math.min(Min, tempLeft);
+            IndexArr[iter++] = dp[ChangedRow][ChangedCol]  - Min;
+            if(Min == tempUpper) {
+                if(ChangedRow == 1 || ChangedRow == Row) {
+                    if(ChangedRow == 1) {
+                        ChangedRow = Row;
+                        ChangedCol--;
+                    }
+                    else{
+                        ChangedRow = Row-1;
+                        ChangedCol--;
+                    }
+                }
+                else{
+                    ChangedRow--;
+                    ChangedCol--;
+                }
+            }
+            else if(Min == tempDown) {
+                if(ChangedRow == 1 || ChangedRow == Row) {
+                    if(ChangedRow == 1) {
+                        ChangedRow = 2;
+                        ChangedCol--;
+                    }
+                    else{
+                        ChangedRow = 1;
+                        ChangedCol--;
+                    }
+                }
+                else{
+                    ChangedRow++;
+                    ChangedCol--;
+                }
+            }
+            else{
+                ChangedCol--;
+            }
+        }
+        for(int i=IndexArr.length - 1; i>=0; i--)
+            System.out.print(IndexArr[i] + " ");
+        System.out.println();
+    }
+    // 재귀로 구현 :: 실패
+    // 이건 굳이 재귀로 안해도 되겠는데?
+    /*static int Solve(int row, int col, int prevRow, int prevCol) {
         // 여기가 문제다....
         if(col == 0)
             return Input[prevRow][prevCol];
@@ -68,6 +162,6 @@ public class The_Cheapest_Way {
             }
         }
         return dp[row][col];
-    }
+    }*/
 }
 
