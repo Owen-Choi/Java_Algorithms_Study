@@ -26,8 +26,7 @@ public class The_Cheapest_Way {
         dp[0][0] = 0;
         //Solve(Row, Col, Row, Col);
         Solve();
-        FindIndex(Row, Col);
-        System.out.println(dp[Row][Col]);
+        FindMinValue();
     }
     // Bottom-up approach ::
     // to find Cheapest way ::
@@ -59,7 +58,7 @@ public class The_Cheapest_Way {
             }
         }
     }
-    // Trace Index Value in Completed-dp array ::
+    // For Tracing Index Value in Completed-dp array ::
     static void FindIndex(int ChangedRow, int ChangedCol) {
         int[] IndexArr = new int[Col];
         int tempUpper, tempDown, tempLeft, Min, iter = 0;
@@ -125,6 +124,20 @@ public class The_Cheapest_Way {
         for(int i=IndexArr.length - 1; i>=0; i--)
             System.out.print(IndexArr[i] + " ");
         System.out.println();
+    }
+    static void FindMinValue() {
+        int Min = dp[1][Col];
+        int ResultRow = 1;
+        for(int i=2; i<=Row; i++) {
+            Min = Math.min(Min, dp[i][Col]);
+        }
+        for(int i=1; i<=Row; i++) {
+            if(dp[i][Col] == Min) {
+                FindIndex(i, Col);
+                System.out.println(Min);
+                return;
+            }
+        }
     }
     // 재귀로 구현 :: 실패
     // 이건 굳이 재귀로 안해도 되겠는데?
