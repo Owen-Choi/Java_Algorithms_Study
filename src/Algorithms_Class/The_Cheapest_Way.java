@@ -127,7 +127,6 @@ public class The_Cheapest_Way {
     }
     static void FindMinValue() {
         int Min = dp[1][Col];
-        int ResultRow = 1;
         for(int i=2; i<=Row; i++) {
             Min = Math.min(Min, dp[i][Col]);
         }
