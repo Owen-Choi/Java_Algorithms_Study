@@ -11,10 +11,10 @@ public class The_Round_of_Tree {
     static ArrayList<Node>[] list;
     static boolean [] flag;
     static int Max = -1;
+    static int TempNode;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         NodeNum = Integer.parseInt(br.readLine());
-        flag = new boolean[NodeNum + 1];
         list = new ArrayList[NodeNum + 1];
         for(int i=0; i<=NodeNum; i++)
             list[i] = new ArrayList<>();
@@ -30,7 +30,10 @@ public class The_Round_of_Tree {
             }
         }
         // Input end ::
+        flag = new boolean[NodeNum + 1];
         recur(1, 0);
+        flag = new boolean[NodeNum + 1];
+        recur(TempNode, 0);
         System.out.println(Max);
     }
     static class Node {
@@ -41,13 +44,16 @@ public class The_Round_of_Tree {
         }
     }
     static void recur(int index, int value) {
+        if(value > Max) {
+            Max = value;
+            TempNode = index;
+        }
+        flag[index] = true;
         for (Node node : list[index]) {
             if(!flag[node.Dest]) {
-                flag[node.Dest] = true;
                 recur(node.Dest, value + node.Weight);
-                recur(node.Dest, value);
+                flag[node.Dest] = true;
             }
         }
-        Max = Math.max(Max, value);
     }
 }
