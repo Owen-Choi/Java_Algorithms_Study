@@ -1,13 +1,13 @@
 package BaekJoon;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.*;
+
 // 9370번 ::
 public class Unidentified_Destination {
     static int testCase, Vertex, Edge, Target, Start, Passed1, Passed2;
     static ArrayList<Node>[] list;
+    static int[] distArr;
     static int[] Candidate;
     static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException {
@@ -27,6 +27,7 @@ public class Unidentified_Destination {
             Passed2 = Integer.parseInt(st.nextToken());
             list = new ArrayList[Vertex + 1];
             Candidate = new int[Target];
+            distArr = new int[Vertex + 1];
             for(int k=0; k<=Vertex; k++)
                 list[k] = new ArrayList<>();
             for(int i = 0; i<Edge; i++) {
@@ -34,13 +35,26 @@ public class Unidentified_Destination {
                 Current = Integer.parseInt(st.nextToken());
                 Destination = Integer.parseInt(st.nextToken());
                 Weight = Integer.parseInt(st.nextToken());
-                list[Current].add(new Node(Destination, Weight));
-                list[Destination].add(new Node(Current, Weight));
+                list[Current].add(new Node(Destination, Weight * 2));
+                list[Destination].add(new Node(Current, Weight * 2));
             }
             for(int i=0; i<Target; i++) {
                 Candidate[i] = Integer.parseInt(br.readLine());
             }
+            for(int i=0; i<list[Passed1].size(); i++) {
+                if(list[Passed1].get(i).Dest == Passed2) {
+                    list[Passed1].get(i).Weight--;
+                    break;
+                }
+            }
+            for(int i=0; i<list[Passed2].size(); i++) {
+                if(list[Passed2].get(i).Dest == Passed1) {
+                    list[Passed2].get(i).Weight--;
+                    break;
+                }
+            }
             // Input End ::
+            Dijkstra(Start);
             Solve();
         }
         bw.write(sb.toString());
@@ -55,30 +69,37 @@ public class Unidentified_Destination {
             Weight = w;
         }
     }
+    static void Dijkstra(int index) {
+        PriorityQueue<Node> queue = new PriorityQueue<>(new Comparator<Node>() {
+            @Override
+            public int compare(Node o1, Node o2) {
+                return o1.Weight - o2.Weight;
+            }
+        });
+        Node tempNode;
+        int tempDest, tempWeight;
+        Arrays.fill(distArr, Integer.MAX_VALUE/2 * 2);
+        queue.offer(new Node(index, 0));
+        while(!queue.isEmpty()) {
+            tempNode = queue.poll();
+            if(tempNode.Weight > distArr[tempNode.Dest])
+                continue;
+            for(int i = 0; i<list[tempNode.Dest].size(); i++) {
+                tempDest = list[tempNode.Dest].get(i).Dest;
+                tempWeight = list[tempNode.Dest].get(i).Weight + tempNode.Weight;
+                if(distArr[tempDest] > tempWeight) {
+                    distArr[tempDest] = tempWeight;
+                    queue.offer(new Node(tempDest, tempWeight));
+                }
+            }
+        }
+    }
     static void Solve() {
-        int[] tempArr = new int[Vertex + 1];
-        Arrays.fill(tempArr, Integer.MAX_VALUE);
-        int iter = 0;
-        for (Node node : list[Passed1]) {
-            for(int i=0; i<Target; i++) {
-                if(node.Dest == Candidate[i]) {
-                    tempArr[iter++] = node.Dest;
-                }
+        Arrays.sort(Candidate);
+        for (int i : Candidate) {
+            if(distArr[i] % 2 != 0) {
+                sb.append(i).append(' ');
             }
-        }
-        for (Node node : list[Passed2]) {
-            for(int i=0; i<Target; i++) {
-                if(node.Dest == Candidate[i]) {
-                    tempArr[iter++] = node.Dest;
-                }
-            }
-        }
-        Arrays.sort(tempArr);
-        for (int i : tempArr) {
-            if(i != Integer.MAX_VALUE)
-                sb.append(i).append(" ");
-            else
-                break;
         }
         sb.append('\n');
     }
