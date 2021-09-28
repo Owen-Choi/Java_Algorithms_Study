@@ -39,7 +39,7 @@ public class Commune_with_SpaceGod {
         }
         // sorting list with the ascending order of weight value
         Collections.sort(list);
-        for(int i=0; i<=PointNum; i++) {
+        for(int i=0; i<PointNum; i++) {
             if(!CycleCheck(list.get(i).Start, list.get(i).Dest)) {
                 Result += list.get(i).Weight;
                 MergeParent(list.get(i).Start, list.get(i).Dest);
