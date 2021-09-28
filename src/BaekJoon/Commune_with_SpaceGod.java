@@ -3,27 +3,25 @@ package BaekJoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.StringTokenizer;
+import java.util.*;
+
 // 1774 ::
 public class Commune_with_SpaceGod {
     static int PointNum, Linked;
-    static Node[] arr;
-    static double[][] dist;
+    static Point[] arr;
     static int[] parent;
     static double Result = 0.0;
+    static ArrayList<Node> list;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         PointNum = Integer.parseInt(st.nextToken());
         Linked = Integer.parseInt(st.nextToken());
-        arr = new Node[PointNum + 1];
-        dist = new double[PointNum + 1][2];
+        arr = new Point[PointNum + 1];
         parent = new int[PointNum + 1];
         for (int i = 1; i <= PointNum; i++) {
             st = new StringTokenizer(br.readLine(), " ");
-            arr[i] = new Node(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()), i);
+            arr[i] = new Point(Double.parseDouble(st.nextToken()), Double.parseDouble(st.nextToken()), i);
             parent[i] = i;
         }
         for(int i=0; i<Linked; i++) {
@@ -31,44 +29,56 @@ public class Commune_with_SpaceGod {
             MergeParent(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
         }
         // now we have to store every node-distance value
+        list = new ArrayList<>();
         double tempWeight;
         for(int i=1; i<=PointNum; i++) {
             for(int k=i+1; k<=PointNum; k++) {
                 tempWeight = CalcDist(arr[i], arr[k]);
-                dist[i][0] = k;                              //도착지
-                dist[i][1] = tempWeight;                    //가중치
-                dist[k][0] = i;
-                dist[k][1] = tempWeight;
+                list.add(new Node(i, k, tempWeight));
             }
         }
-        Arrays.sort(dist, new Comparator<double[]>() {
-            @Override
-            public int compare(double[] o1, double[] o2) {
-                if(o1[1] < o2[1])
-                    return -1;
-                else if(o1[1] == o2[1])
-                    return 0;
-                else
-                    return 1;
-            }
-        });
-        for(int i=1; i<=PointNum; i++) {
-            if(!CycleCheck(i, (int)dist[i][0])) {
-
+        // sorting list with the ascending order of weight value
+        Collections.sort(list);
+        for(int i=0; i<=PointNum; i++) {
+            if(!CycleCheck(list.get(i).Start, list.get(i).Dest)) {
+                Result += list.get(i).Weight;
+                MergeParent(list.get(i).Start, list.get(i).Dest);
             }
         }
+        System.out.println(String.format("%.2f", Result));
     }
-    static class Node {
-        int X, Y, index;
+    static class Point {
+        double X, Y;
+        int index;
 
-        public Node(int x, int y, int index) {
+        public Point(double x, double y, int index) {
             X = x;
             Y = y;
             this.index = index;
         }
     }
-    static double CalcDist(Node node1, Node node2) {
-        return Math.sqrt(Math.pow((node1.X - node2.X),2) + Math.pow((node1.Y) - node2.Y,2));
+
+    static class Node implements Comparable<Node>{
+        int Start, Dest;
+        double Weight;
+        public Node(int st, int de, double We) {
+            Start = st;
+            Dest = de;
+            Weight = We;
+        }
+        @Override
+        public int compareTo(Node o1) {
+            if(this.Weight < o1.Weight)
+                return -1;
+            else if(this.Weight == o1.Weight)
+                return 0;
+            else
+                return 1;
+        }
+    }
+
+    static double CalcDist(Point node1, Point node2) {
+        return Math.sqrt(Math.pow(node1.X - node2.X,2) + Math.pow(node1.Y - node2.Y,2));
     }
     static int GetParent(int index) {
         if(parent[index] == index) return index;
