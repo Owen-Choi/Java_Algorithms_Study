@@ -22,19 +22,31 @@ public class Two_Liquids {
         Arrays.sort(arr);
         int leftPivot = 0, rightPivot = N-1;
         int Result1 = 0, Result2 = 0, Min = Integer.MAX_VALUE;
-        for(int i=0; i<(leftPivot + rightPivot) / 2; i++) {
-            leftPivot = i;
-            rightPivot = N-1;
+        int value;
             while (leftPivot < rightPivot) {
-                if (Math.abs(arr[leftPivot] + arr[rightPivot]) < Min) {
-                    Min = Math.abs(arr[leftPivot] + arr[rightPivot]);
-                    Result1 = arr[leftPivot];
-                    Result2 = arr[rightPivot];
-                }
-                leftPivot++;
-                rightPivot--;
+               value = arr[leftPivot] + arr[rightPivot];
+               if(value < 0) {
+                   if(Math.abs(value) < Min) {
+                       Min = Math.abs(value);
+                       Result1 = leftPivot;
+                       Result2 = rightPivot;
+                   }
+                   leftPivot++;
+               }
+               else if(value > 0) {
+                   if(Math.abs(value) < Min) {
+                       Min = Math.abs(value);
+                       Result1 = leftPivot;
+                       Result2 = rightPivot;
+                   }
+                   rightPivot--;
+               }
+               else {
+                   Result1 = leftPivot;
+                   Result2 = rightPivot;
+                   break;
+               }
             }
-        }
-        System.out.println(Result1 + " " + Result2);
+        System.out.println(arr[Result1] + " " + arr[Result2]);
     }
 }
