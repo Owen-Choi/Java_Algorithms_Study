@@ -3,7 +3,6 @@ package BaekJoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 // 1806 ::
 public class Partial_Sum {
@@ -19,23 +18,24 @@ public class Partial_Sum {
         st = new StringTokenizer(br.readLine()," ");
         for(int i=0; i<N; i++)
             arr[i] = Integer.parseInt(st.nextToken());
-        Arrays.sort(arr);
-
+        Solve();
     }
     static void Solve() {
-        int tempSum = 0;
-        int leftPivot = 0, rightPivot = N-1;
-        // :: we gonna add all of values between leftPivot and rightPivot and store to tempSum
-        // if sum value is bigger than the target, than we'll  move rightPivot
-        // if sum value is samller than the target, than we'll move leftPivot ::
-        while(leftPivot < rightPivot) {
-            for(int i=leftPivot; i<=rightPivot; i++)
-                tempSum += arr[i];
+        int Left = 0, Right = 0, tempSum = 0;
+        while(true) {
             if(tempSum >= S) {
-                Result = Math.min(Result, rightPivot - leftPivot + 1);
-                // we gonna reduce rightPivot?
-
+                tempSum -= arr[Left];
+                Result = Math.min(Result, Right - Left);
+                Left++;
             }
+            else if(Right == N)
+                break;
+            else
+                tempSum += arr[Right++];
         }
+        if(Result == Integer.MAX_VALUE)
+            System.out.println(0);
+        else
+            System.out.println(Result);
     }
 }
