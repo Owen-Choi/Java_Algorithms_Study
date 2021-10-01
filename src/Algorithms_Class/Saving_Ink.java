@@ -33,7 +33,7 @@ public class Saving_Ink {
             for(int k=i+1; k<DotNum; k++) {
                 //now we have all distances value of two different nodes
                  distance[i][k] = Math.sqrt(Math.pow(dot[i][0] - dot[k][0], 2) + Math.pow(dot[i][1] - dot[k][1], 2));
-                 distance[i][k] = Double.parseDouble(String.format("%.2f", distance[i][k]));
+                 //distance[i][k] = Double.parseDouble(String.format("%.2f", distance[i][k]));
             }
         }
         LinkedList<Node> list = new LinkedList<>();
@@ -68,6 +68,7 @@ public class Saving_Ink {
                 MergeParent(tempNode.Start, tempNode.Dest);
             }
         }
+        sumValue = Double.parseDouble(String.format("%.2f", sumValue));
         System.out.println(sumValue);
     }
     //class for nodes
