@@ -60,9 +60,7 @@ public class Dijkstra {
         int tempDist, tempFinish;
         while(!queue.isEmpty()) {
             tempNode = queue.poll();
-            // 이 distance는 StartVer 기준이다. 즉 StartVer에서 i 까지의 거리를 distance[i]로 나타낸다.
             if(distance[tempNode.Finish] < tempNode.Distance) continue;
-            // 현재 poll한 node와 연결된 list를 모두 탐색       //priority queue를 사용하기 때문에 선형탐색 다익스트라가 아니다.
             for(int i=0; i<list[tempNode.Finish].size(); i++) {
                 tempFinish = list[tempNode.Finish].get(i).Finish;
                 tempDist = list[tempNode.Finish].get(i).Distance + tempNode.Distance;
