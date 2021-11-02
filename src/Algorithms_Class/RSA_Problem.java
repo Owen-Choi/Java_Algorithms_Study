@@ -9,6 +9,8 @@ public class RSA_Problem {
     static int n, e;
     // cipher text C ::
     static int C;
+    // Euler's Totient ::
+    static int ET;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please enter the public key values :: ");
@@ -22,13 +24,42 @@ public class RSA_Problem {
         Solve();
     }
     static void Solve() {
-        int i = 1;
-        while(true) {
-            if(Math.pow(i, e) % n == C)
-                break;
-            else
-                i++;
+        int d = Find_D();
+        System.out.println(squaring(d));
+    }
+    static int Euclid(int a, int b) {
+        if(b == 0)
+            return a;
+        else
+            return Euclid(b, a%b);
+    }
+    static int Find_D () {
+        int prime_count = 0;
+        int d = -1;
+        for(int i=1; i<n; i++) {
+            if(Euclid(i, n) == 1)
+                prime_count++;
         }
-        System.out.println("M is " + i);
+        ET = prime_count;
+        for(int i=0; i<ET; i++) {
+            if((e * i) % ET == 1) {
+                d = i;
+                break;
+            }
+        }
+        return d;
+    }
+    static int squaring(int d) {
+        int Original = 1;
+        int iter = d;
+        while(d > 0) {
+            while(d % 2 == 0) {
+                d /= 2;
+                C = (C*C) % n;
+            }
+            d--;
+            Original = (Original * C) % n;
+        }
+        return Original;
     }
 }
