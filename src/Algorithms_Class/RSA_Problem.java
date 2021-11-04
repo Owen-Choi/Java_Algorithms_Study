@@ -49,16 +49,17 @@ public class RSA_Problem {
         }
         return d;
     }
-    static int squaring(int d) {
-        int Original = 1;
+    static long squaring(int d) {
+        long Original = 1;
         int iter = d;
-        while(d > 0) {
-            while(d % 2 == 0) {
-                d /= 2;
-                C = (C*C) % n;
+        long tempC = C;
+        while(iter > 0) {
+            while(iter % 2 == 0) {
+                iter /= 2;
+                tempC = ((tempC % n) * tempC ) % n;
             }
-            d--;
-            Original = (Original * C) % n;
+            iter--;
+            Original = ((Original % n) * tempC) % n;
         }
         return Original;
     }
