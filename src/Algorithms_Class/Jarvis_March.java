@@ -1,6 +1,5 @@
-// Java program to find convex hull of a set of points. Refer
-// https://www.geeksforgeeks.org/orientation-3-ordered-points/
-// for explanation of orientation()
+package Algorithms_Class;// Java program to find convex hull of a set of points. Refer
+
 import java.util.*;
 
 class Point
@@ -37,16 +36,17 @@ class GFG {
         // Initialize Result
         Vector<Point> hull = new Vector<Point>();
 
-        // Find the leftmost point
+        // 가장 왼쪽의 점을 찾음(x값이 가장 작은 점을 찾음)
         int l = 0;
         for (int i = 1; i < n; i++)
             if (points[i].x < points[l].x)
                 l = i;
 
-        // Start from leftmost point, keep moving
-        // counterclockwise until reach the start point
+        // 위에서 찾은 가장 왼쪽의 점에서 시작, 계속해서 이동함
+        // 시작점으로 돌아올 때 까지 CCW
         // again. This loop runs O(h) times where h is
         // number of points in result or output.
+        //p는 pivot인듯.
         int p = l, q;
         do
         {
@@ -59,14 +59,17 @@ class GFG {
             // track of last visited most counterclock-
             // wise point in q. If any point 'i' is more
             // counterclock-wise than q, then update q.
+
+            //이 코드는 이해가 잘 안가네.
+            // n은 점의 개수이다.
+            //p를 업데이트 해야하는데 n보다 커지면 안되니 넣은 코드인 것 같다.
             q = (p + 1) % n;
 
             for (int i = 0; i < n; i++)
             {
                 // If i is more counterclockwise than
                 // current q, then update q
-                if (orientation(points[p], points[i], points[q])
-                        == 2)
+                if (orientation(points[p], points[i], points[q]) == 2)
                     q = i;
             }
 
