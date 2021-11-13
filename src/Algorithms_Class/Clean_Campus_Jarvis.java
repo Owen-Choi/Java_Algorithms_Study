@@ -20,7 +20,7 @@ public class Clean_Campus_Jarvis {
         while(testCase --> 0) {
             Fresh_num = Integer.parseInt(br.readLine());
             freshes = new Fresh[Fresh_num + 1];
-            freshes[0] = new Fresh(0.0f, 0.0f);
+            freshes[0] = new Fresh(0.0, 0.0);
             for(int i=1; i<=Fresh_num; i++) {
                 st = new StringTokenizer(br.readLine()," ");
                 tempX = Double.parseDouble(st.nextToken());
@@ -39,8 +39,11 @@ public class Clean_Campus_Jarvis {
 
     public static void convex_hull() {
         Queue<Fresh> queue = new LinkedList<>();
-        //our start point is (0,0)
-        int index = 0, q;
+        int l = 0;
+        for (int i = 1; i < freshes.length; i++)
+            if (freshes[i].x < freshes[l].x)
+                l = i;
+        int index = l, q;
         do {
             queue.offer(freshes[index]);
             q = (index + 1) % freshes.length;
@@ -50,31 +53,87 @@ public class Clean_Campus_Jarvis {
                 }
             }
             index = q;
-            /*if(queue.size() >= freshes.length)
-                break;*/
-        }while(freshes[index].y != 0 || freshes[index].x != 0);
+            //queue.offer(freshes[index]);
+            freshes[index].visited = true;
 
+        }while(index != l);
         System.out.println(calc_value(queue));
     }
 
-    static float calc_value(Queue<Fresh> queue) {
-        Fresh prior = null, temp = null;
+    static double calc_value(Queue<Fresh> queue) {
+        // Find two closest fresh man
+        /////////////////////////////////////
+
+        Fresh min1 = null,min2 = null;
+        double min = 1000000, tempDist;
+        for(int i=1; i< freshes.length; i++) {
+            tempDist = getDist(freshes[i], freshes[0]);
+            if(tempDist < min && freshes[i].visited) {
+                min = tempDist;
+                min1 = freshes[i];
+            }
+        }
+        System.out.println(min1.x + " " + min1.y);
+        min = 1000000;
+        for(int i=1; i< freshes.length; i++) {
+            if(freshes[i] == min1)
+                continue;
+            tempDist = getDist(freshes[i], freshes[0]);
+            if(tempDist < min && freshes[i].visited && typeCheck(min1, freshes[i])) {
+                min = tempDist;
+                min2 = freshes[i];
+            }
+        }
+        System.out.println(min2.x + " " + min2.y);
+        //now we know m1 and m2, which is closest point from start point ::
+        Fresh prior = null, temp = null, Init = null;
         int size = queue.size();
-        float value = 0.0f;
+        double value = 0.0;
+
+        /*for(Fresh tf : queue)
+            System.out.println(tf.x + " " + tf.y);*/
+
         for(int i=0; i<size; i++) {
             if(i == 0) {
+                Init = queue.peek();
                 prior = queue.poll();
-                continue;
             }
             else {
                 temp = queue.poll();
-                System.out.println(temp.x + " " + temp.y);
                 value += Math.sqrt(Math.pow(prior.x - temp.x, 2) + Math.pow(prior.y - temp.y, 2));
                 prior = temp;
             }
         }
-        //value += Math.sqrt(Math.pow(temp.x - 0, 2) + Math.pow(temp.y - 0, 2));
-        return value + 2f;
+        // at the last, we have to draw line to init point and last point
+        value += getDist(temp, Init);
+        value += 2;
+        // now we have convex hull's length.
+        value -= getDist(min1, min2);
+        // get rid of distance min1 and min2
+        value += getDist(min1, freshes[0]) + getDist(min2, freshes[0]);
+        return value;
+    }
+
+    static double getDist(Fresh tempFresh, Fresh tempFresh2) {
+        return Math.sqrt((Math.pow(tempFresh.x - tempFresh2.x, 2)) + (Math.pow(tempFresh.y - tempFresh2.y,2)));
+    }
+
+    static boolean typeCheck(Fresh pivot, Fresh fresh) {
+        // 아래와 같이 처리하면 첫번째 데이터 셋이 동작하지 않는다.
+        /*if(Math.abs(pivot.x) == Math.abs(fresh.x) && Math.abs(pivot.y) == Math.abs(fresh.y))
+            return false;
+        else
+            return true;*/
+        if(pivot.x >= 0 && fresh.x <= 0 && pivot.y == 0 && fresh.y == 0)
+            return false;
+        else if(pivot.x <= 0 && fresh.x >= 0 && pivot.y == 0 && fresh.y == 0)
+            return false;
+        else if(pivot.y >= 0 && fresh.y <= 0 && pivot.x == 0 && fresh.x == 0)
+            return false;
+        else if(pivot.y <= 0 && fresh.y >= 0 && pivot.x == 0 && fresh.x == 0)
+            return false;
+        else
+            return true;
     }
 
     static class Fresh {
