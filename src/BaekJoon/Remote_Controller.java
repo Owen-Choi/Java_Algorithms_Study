@@ -7,9 +7,9 @@ import java.util.StringTokenizer;
 
 public class Remote_Controller {
     static String TargetNum;
-    static int brokenNum;
+    static int brokenNum, result;
     static int[] brokens;
-    static int result = 0;
+    static char[] temp;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         TargetNum = br.readLine();
@@ -19,19 +19,18 @@ public class Remote_Controller {
         for(int i=0; i<brokenNum; i++) {
             brokens[i] = Integer.parseInt(st.nextToken());
         }
-        Solve();
-    }
-    static void Solve() {
-        char[] temp;
         temp = TargetNum.toCharArray();
-        for(int i=0; i<temp.length; i++) {
-            if(checker(temp[i] - '0')) {
-                result++;
-            }
-        }
+        Solve(100,0,0);
     }
-    static boolean checker(int number) {
-        for(int i=0; i<brokenNum; i++) {
+    static void Solve(int current, int index, int num) {
+        if(current == Integer.valueOf(TargetNum)) {
+            result = Math.min(result, num);
+            return;
+        }
+        for(int i=index; i<)
+    }
+    static boolean checker(int index, int number) {
+        for(int i=index; i<brokenNum; i++) {
             if(number == brokens[i])
                 return false;
         }
