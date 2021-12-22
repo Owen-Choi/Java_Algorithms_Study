@@ -6,34 +6,48 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Remote_Controller {
-    static String TargetNum;
-    static int brokenNum, result;
-    static int[] brokens;
-    static char[] temp;
-    public static void main(String[] args) throws IOException {
+    static int N, brokenNum;
+    static boolean[] brokens;
+    static final int MaxValue = 0x7a120;
+    public static void main(String[] args) throws IOException{
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        TargetNum = br.readLine();
+        N = Integer.parseInt(br.readLine());
         brokenNum = Integer.parseInt(br.readLine());
-        brokens = new int[brokenNum];
-        StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        for(int i=0; i<brokenNum; i++) {
-            brokens[i] = Integer.parseInt(st.nextToken());
+        brokens = new boolean[10];
+        // 여기서 Nullpointer가 뜰 수도 있다. 고장난 버튼이 없는 경우. 따라서 조건문을 통해 확인해주고
+        // 코드를 실행하도록 한다.
+        StringTokenizer st;
+        if(brokenNum != 0) {
+            st = new StringTokenizer(br.readLine(), " ");
+            for (int i = 0; i < brokenNum; i++) {
+                brokens[Integer.parseInt(st.nextToken())] = true;
+            }
         }
-        temp = TargetNum.toCharArray();
-        Solve(100,0,0);
+        int temp, Nogada = Math.abs(N - 100), remain = 0;
+        for(int i=0; i<=MaxValue * 2; i++) {
+            temp = checker(i);
+            // temp가 0이 아니라는 것은 남아있는 숫자 중에서 고장난 버튼에 걸리지 않고 반환이 되었다는 것.
+            if(temp > 0) {
+                remain = Math.abs(N - i);
+                Nogada = Math.min(Nogada, remain + temp);
+            }
+        }
+        System.out.println(Nogada);
     }
-    static void Solve(int current, int index, int num) {
-        if(current == Integer.valueOf(TargetNum)) {
-            result = Math.min(result, num);
-            return;
+    static int checker(int num) {
+        if(num == 0) {
+            if(brokens[num])
+                return 0;
+            else
+                return 1;
         }
-        for(int i=index; i<)
-    }
-    static boolean checker(int index, int number) {
-        for(int i=index; i<brokenNum; i++) {
-            if(number == brokens[i])
-                return false;
+        int count = 0;
+        while(num > 0) {
+            if(brokens[num % 10])
+                return 0;
+            num /= 10;
+            count++;
         }
-        return true;
+        return count;
     }
 }
