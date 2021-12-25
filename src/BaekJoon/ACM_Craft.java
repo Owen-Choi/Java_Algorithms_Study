@@ -45,37 +45,21 @@ public class ACM_Craft {
     }
     static void Topology() {
         Queue<Integer> queue = new LinkedList();
-        int result = 0;
+        int[] result = buildings.clone();
         for(int i=1; i<=buildingNum; i++) {
             if(indegree[i] == 0)
                 queue.offer(i);
         }
-        int temp = 0, poped, maxIndex = 0, maxValue;
-        for(int i=1; i<=buildingNum; i++) {
-            if(queue.isEmpty()) {
-                System.out.println("Cycles exist");
-                return;
-            }
+        int poped;
+        while(!queue.isEmpty()) {
             poped = queue.poll();
-            result += buildings[poped];
-            if(poped == target) {
-                sb.append(result).append('\n');
-                return;
+            for(int i=0; i<list[poped].size(); i++) {
+                int y = list[poped].get(i);
+                result[y] = Math.max(result[y], result[poped] + buildings[y]);
+                if(--indegree[y] == 0)
+                    queue.offer(y);
             }
-            maxValue = -1;
-            for(int k=0; k<list[poped].size(); k++) {
-                // 진입점이 0이면서 가장 가치가 큰 점을 고른다. 그렇게 하는 이유는
-                // 모든 점이 다 건설완료되어야 다음 건물을 지을 수 있는데,
-                // 가장 건설이 오래 걸리는 건물을 기준으로 잡으면 다른 건물들은 자동으로
-                // 건설이 완료되기 때문.
-                int y = list[poped].get(k);
-                if(buildings[y] > maxValue) {
-                    maxValue = buildings[y];
-                    maxIndex = y;
-                }
-            }
-            queue.offer(maxIndex);
         }
-        sb.append(result).append('\n');
+        sb.append(result[target]).append('\n');
     }
 }
