@@ -15,7 +15,6 @@ public class Inserting_bracket {
         int leftRequired = 0;
         int result = 0;
         // 단순 괄호의 수가 아니라 닫히지 않은 괄호가 몇개가 있는지를 세어야 한다.
-        // TODO 문제의 요점은 Stack을 사용하는 것.
         for(int i=0; i<inputStr.length(); i++) {
             // 괄호가 오른쪽을 보고 있을 경우
             if(inputStr.charAt(i) == '(') {

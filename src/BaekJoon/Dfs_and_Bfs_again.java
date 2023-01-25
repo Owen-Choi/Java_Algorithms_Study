@@ -53,7 +53,6 @@ public class Dfs_and_Bfs_again {
 
     }
     static void DFS(int vertex) {
-        // 예시를 보니 오름차순으로 정렬해야 할듯 하다.
         for(int i=0; i<datas[vertex - 1].size(); i++) {
             // 재귀라서 중복이 생길 수 있으니 배제해준다.
             if(!resultDFS.contains(datas[vertex - 1].get(i))) {

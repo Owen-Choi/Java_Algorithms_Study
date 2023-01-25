@@ -28,14 +28,11 @@ public class Making_Palindrome {
 
         Queue<Integer> queue = new LinkedList<>();
         int counter = 0;
-        boolean oddFlag;
         for(int k=0; k<c.length; k++) {
-            oddFlag = true;
             while(c[k] > 1) {
                 r[counter] = r[inputStr.length() - 1 - counter] = (k + 65);
                 c[k] -= 2;
                 counter++;
-                oddFlag = false;
             }
             if(c[k] == 1) {
                 oddNum++;
