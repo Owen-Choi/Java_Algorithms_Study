@@ -7,11 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+// 1184 : 귀농, 타인 풀이 참고함
 public class Returning_to_Farm {
 
     static int n;
     static int [][] values;
     static int [][] cache;
+    static int result = 0;
     static List<Integer> sum1 = new ArrayList<>();
     static List<Integer> sum2 = new ArrayList<>();
     static int sum = 0;
@@ -29,12 +31,24 @@ public class Returning_to_Farm {
             }
         }
 
-        // 오른쪽 위, 왼쪽 아래부터
         for(int i=0; i<n-1; i++) {
             for(int k=0; k<n-1; k++) {
+                // 오른쪽 위, 왼쪽 아래부터 검사하고, 결과를 종합한 뒤 리스트를 비우고 반대의 경우도 확인한다.
+                rightDown(i,k);
+                leftUp(i,k);
+                checker();
+                sum1.clear();
+                sum2.clear();
 
+                rightUp(i,k);
+                leftDown(i,k);
+                checker();
+                sum1.clear();
+                sum2.clear();
             }
         }
+
+        System.out.println(result);
 
     }
 
@@ -42,7 +56,7 @@ public class Returning_to_Farm {
         for(int x=X+1; x<n; x++) {
             sum = 0;
             // y값의 증가도 아래 코드로 함께 고려할 수 있다.
-            for(int y = Y + 1; y<n; y++) {
+            for(int y =Y+1; y<n; y++) {
                 // 일단 먼저 더해준다.
                 sum += values[x][y];
                 if(x == X) {
@@ -72,14 +86,14 @@ public class Returning_to_Farm {
     }
 
     public static void rightUp(int X, int Y) {
-        for(int x=X + 1; x<n; x++) {
+        for(int x=X; x>=0; x--) {
             sum = 0;
-            for(int y=Y-1; y>=0; y--) {
-                sum += cache[x][y];
+            for(int y=Y+1; y<n; y++) {
+                sum += values[x][y];
                 if(x == X) {
                     cache[x][y] = sum;
                 } else {
-                    cache[x][y] = cache[x-1][y] + sum;
+                    cache[x][y] = cache[x+1][y] + sum;
                 }
                 sum2.add(cache[x][y]);
             }
@@ -87,6 +101,26 @@ public class Returning_to_Farm {
     }
 
     public static void leftDown(int X, int Y) {
+        for(int x=X+1; x<n; x++) {
+            sum = 0;
+            for(int y=Y; y>=0; y--) {
+                sum += values[x][y];
+                if(x == X) {
+                    cache[x][y] = sum;
+                } else {
+                    cache[x][y] = cache[x-1][y] + sum;
+                }
+                sum1.add(cache[x][y]);
+            }
+        }
+    }
 
+    public static void checker() {
+        for (Integer sum1 : sum1) {
+            for (Integer sum2 : sum2) {
+                if(sum1.equals(sum2))
+                    result++;
+            }
+        }
     }
 }
