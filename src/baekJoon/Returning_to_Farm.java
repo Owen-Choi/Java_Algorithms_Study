@@ -11,7 +11,7 @@ public class Returning_to_Farm {
 
     static int n;
     static int [][] values;
-    static int [][] sumVal;
+    static int [][] cache;
     static List<Integer> sum1 = new ArrayList<>();
     static List<Integer> sum2 = new ArrayList<>();
     static int sum = 0;
@@ -21,7 +21,7 @@ public class Returning_to_Farm {
 
         n = Integer.parseInt(br.readLine());
         values = new int[n][n];
-        sumVal = new int[n][n];
+        cache = new int[n][n];
         for(int i=0; i<n; i++) {
             st = new StringTokenizer(br.readLine(), " ");
             for(int k=0; k<n; k++) {
@@ -39,12 +39,54 @@ public class Returning_to_Farm {
     }
 
     public static void rightDown(int X, int Y) {
-        for(int x=0; x<X; x++) {
+        for(int x=X+1; x<n; x++) {
             sum = 0;
             // y값의 증가도 아래 코드로 함께 고려할 수 있다.
-            for(int y = 0; y<Y; y++) {
-
+            for(int y = Y + 1; y<n; y++) {
+                // 일단 먼저 더해준다.
+                sum += values[x][y];
+                if(x == X) {
+                    cache[x][y] = sum;
+                } else {
+                    cache[x][y] += cache[x-1][y] + sum;
+                }
+                sum2.add(cache[x][y]);
             }
         }
+    }
+
+    public static void leftUp(int X, int Y) {
+        // TODO 위험 예상 구간
+        for(int x=X; x>=0; x--) {
+            sum = 0;
+            for(int y=Y; y>=0; y--) {
+                sum += values[x][y];
+                if(x == X) {
+                    cache[x][y] = sum;
+                } else {
+                    cache[x][y] = cache[x+1][y] + sum;
+                }
+                sum1.add(cache[x][y]);
+            }
+        }
+    }
+
+    public static void rightUp(int X, int Y) {
+        for(int x=X + 1; x<n; x++) {
+            sum = 0;
+            for(int y=Y-1; y>=0; y--) {
+                sum += cache[x][y];
+                if(x == X) {
+                    cache[x][y] = sum;
+                } else {
+                    cache[x][y] = cache[x-1][y] + sum;
+                }
+                sum2.add(cache[x][y]);
+            }
+        }
+    }
+
+    public static void leftDown(int X, int Y) {
+
     }
 }
