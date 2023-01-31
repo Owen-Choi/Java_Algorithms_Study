@@ -37,14 +37,12 @@ public class Returning_to_Farm {
                 rightDown(i,k);
                 leftUp(i,k);
                 checker();
-                sum1.clear();
-                sum2.clear();
+                clear();
 
                 rightUp(i,k);
                 leftDown(i,k);
                 checker();
-                sum1.clear();
-                sum2.clear();
+                clear();
             }
         }
 
@@ -111,6 +109,17 @@ public class Returning_to_Farm {
                     cache[x][y] = cache[x-1][y] + sum;
                 }
                 sum1.add(cache[x][y]);
+            }
+        }
+    }
+
+    public static void clear() {
+        sum1.clear();
+        sum2.clear();
+
+        for(int i=0; i<n; i++) {
+            for(int k=0; k<n; k++) {
+                cache[i][k] = 0;
             }
         }
     }
