@@ -44,6 +44,7 @@ public class Making_Maximum_Gap {
         }
     }
 
+
 //    static void show() {
 //        for(int i=0; i<N; i++) {
 //            System.out.print(flags[i] + " ");
