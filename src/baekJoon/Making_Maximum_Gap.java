@@ -3,6 +3,7 @@ package baekJoon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 // 10819
@@ -20,35 +21,30 @@ public class Making_Maximum_Gap {
         for(int i=0; i<N; i++) {
             values[i] = Integer.parseInt(st.nextToken());
         }
-        for(int i=0; i<N; i++) {
-            flags[i] = true;
-            recur(0, values[i], 0);
-            flags[i] = false;
-        }
+        recur(0, new ArrayList<>());
         System.out.println(result);
     }
 
-    static void recur(int depth, int pre, int total) {
-        if(depth == N - 1) {
-            result = Math.max(result, total);
+    static void recur(int depth, ArrayList<Integer> list) {
+        if(depth == N) {
+            result = Math.max(result, calc(list));
             return;
         }
         for(int i=0; i<N; i++) {
             if(!flags[i]) {
                 flags[i] = true;
-                total += Math.abs(pre - values[i]);
-                depth++;
-                recur(depth, values[i], total);
+                list.add(values[i]);
+                recur(depth + 1, list);
+                list.remove(list.size() - 1);
                 flags[i] = false;
             }
         }
     }
-
-
-//    static void show() {
-//        for(int i=0; i<N; i++) {
-//            System.out.print(flags[i] + " ");
-//        }
-//        System.out.println();
-//    }
+    static int calc(ArrayList<Integer> list) {
+        int resultSum = 0;
+        for(int i=0; i<N - 1; i++) {
+            resultSum += Math.abs(list.get(i) - list.get(i + 1));
+        }
+        return resultSum;
+    }
 }
