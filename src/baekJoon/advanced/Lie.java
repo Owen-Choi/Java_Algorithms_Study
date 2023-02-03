@@ -13,7 +13,6 @@ public class Lie {
     static int N;
     static int M;
     static boolean[] watcher;
-    static List<Integer>[] meetings;
     static List<Integer>[] parties;
     static int result = 0;
     static boolean[] detectedParty;
@@ -24,11 +23,7 @@ public class Lie {
         M = Integer.parseInt(st.nextToken());
         watcher = new boolean[N];
         parties = new ArrayList[M];
-        meetings = new ArrayList[N];
         detectedParty = new boolean[M];
-        for(int i=0; i<N; i++) {
-            meetings[i] = new ArrayList<>();
-        }
         for(int i=0; i<M; i++) {
             parties[i] = new ArrayList<>();
         }
@@ -48,7 +43,7 @@ public class Lie {
 
         int cnt = 0;
         // 3중 for문...
-        while(cnt != M) {
+        while(cnt <= M) {
             for(int i=0; i<M; i++) {
                 for(int k=0; k<parties[i].size(); k++) {
                     if(watcher[parties[i].get(k)]) {
