@@ -78,7 +78,7 @@ public class Lie {
         for(int k=0; k<parties[i].size(); k++) {
             // 한명이라도 해당 파티 내에서 진실을 알고 있다면 flag를 true로 바꿈
             if(watcher[parties[i].get(k)]) {
-                detectedParty[k] = true;
+                detectedParty[i] = true;
                 return;
             }
         }
