@@ -88,19 +88,24 @@ public class Party {
          
          while(!q.isEmpty()) {
              Node now = q.poll();
-             
+
              if(!visited[now.dest]) {
                  visited[now.dest] = true;
              }
 
-             for (Node next : list[now.dest]) {
-                 if(!visited[next.dest] && back_dist[next.dest] > now.value + next.value) {
-                     back_dist[next.dest] = now.value + next.value;
-                     q.add(new Node(next.dest, back_dist[next.dest]));
+             for(int i=0; i<N; i++) {
+                 for(int k=0; k<list[i].size(); k++) {
+                     if(list[i].get(k).dest == now.dest) {
+                         if(!visited[i] && back_dist[i] > now.value + list[i].get(k).value) {
+                             back_dist[i] = now.value + list[i].get(k).value;
+                             q.add(new Node(list[i].get(k).dest, back_dist[i]));
+                         }
+                     }
                  }
              }
          }
     }
+
 
     static void findMaximum() {
         int result = 0;
