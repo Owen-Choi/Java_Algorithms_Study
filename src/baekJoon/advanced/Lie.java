@@ -25,7 +25,7 @@ public class Lie {
         watcher = new boolean[N];
         parties = new ArrayList[M];
         meetings = new ArrayList[N];
-        detectedParty = new boolean[N];
+        detectedParty = new boolean[M];
         for(int i=0; i<N; i++) {
             meetings[i] = new ArrayList<>();
         }
@@ -40,17 +40,18 @@ public class Lie {
 
         for(int i=0; i<M; i++) {
             st = new StringTokenizer(br.readLine(), " ");
-            parties[i].add(Integer.parseInt(st.nextToken()) - 1);
+            int come = Integer.parseInt(st.nextToken());
+            for(int k=0; k<come; k++) {
+                parties[i].add(Integer.parseInt(st.nextToken()) - 1);
+            }
         }
 
-        boolean flag = true;
+        int cnt = 0;
         // 3중 for문...
-        while(flag) {
-            flag = false;
+        while(cnt != M) {
             for(int i=0; i<M; i++) {
                 for(int k=0; k<parties[i].size(); k++) {
                     if(watcher[parties[i].get(k)]) {
-                        flag = true;
                         detectedParty[i] = true;
                         makeTrueWatcher(i);
                         break;
@@ -59,9 +60,10 @@ public class Lie {
             }
             for(int l=0; l<M; l++) {
                 if(!detectedParty[l]) {
-                    flag = check(l);
+                    check(l);
                 }
             }
+            cnt++;
         }
 
         for(int i=0; i<M; i++) {
@@ -77,14 +79,14 @@ public class Lie {
         }
     }
 
-    static boolean check(int i) {
+    static void check(int i) {
         for(int k=0; k<parties[i].size(); k++) {
+            // 한명이라도 해당 파티 내에서 진실을 알고 있다면 flag를 true로 바꿈
             if(watcher[parties[i].get(k)]) {
                 detectedParty[k] = true;
-                return true;
+                return;
             }
         }
-        return false;
     }
 
 }
