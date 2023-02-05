@@ -33,11 +33,12 @@ public class King_Of_Fishing {
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
         X = Integer.parseInt(st.nextToken());
         Y = Integer.parseInt(st.nextToken());
+        M = Integer.parseInt(st.nextToken());
         list = new ArrayList<>();
         for(int i=0; i<M; i++) {
             st = new StringTokenizer(br.readLine()," ");
-            int x = Integer.parseInt(st.nextToken());
-            int y = Integer.parseInt(st.nextToken());
+            int x = Integer.parseInt(st.nextToken()) - 1;
+            int y = Integer.parseInt(st.nextToken()) - 1;
             int v = Integer.parseInt(st.nextToken());
             int d = Integer.parseInt(st.nextToken());
             int s = Integer.parseInt(st.nextToken());
@@ -52,21 +53,29 @@ public class King_Of_Fishing {
             oneSecOps();
 
             // 3. 잡아먹히는 상어가 있는지 체크
-
+            eatingCheck();
         }
+
+        System.out.println(result);
     }
 
     static void catchUp(int y) {
         int minIndex = 0;
-        int minValue = 0;
+        int minValue = Integer.MAX_VALUE;
+        boolean flag = false;
         for(int i=0; i<list.size(); i++) {
-            if(list.get(i).y == i) {
-                minIndex = i;
-                minValue = list.get(i).x;
+            if(list.get(i).y == y) {
+                if(minValue > list.get(i).x) {
+                    minIndex = i;
+                    minValue = list.get(i).x;
+                    flag = true;
+                }
             }
         }
-        result += minValue;
-        list.remove(minIndex);
+        if(flag) {
+            result += list.get(minValue).size;
+            list.remove(minIndex);
+        }
     }
 
     static void oneSecOps() {
@@ -154,7 +163,18 @@ public class King_Of_Fishing {
     }
 
     static void eatingCheck() {
-
+        // 2중 for문...?
+        for(int i=0; i<list.size(); i++) {
+            for(int k=0; k<list.size(); k++) {
+                if(list.get(i).x == list.get(k).x && list.get(i).y == list.get(k).y) {
+                    if(list.get(i).size > list.get(k).size) {
+                        list.remove(k);
+                    } else if(list.get(i).size < list.get(k).size) {
+                        list.remove(i);
+                    }
+                }
+            }
+        }
     }
 
 }
