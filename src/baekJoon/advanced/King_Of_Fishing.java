@@ -73,7 +73,7 @@ public class King_Of_Fishing {
             }
         }
         if(flag) {
-            result += list.get(minValue).size;
+            result += list.get(minIndex).size;
             list.remove(minIndex);
         }
     }
@@ -120,7 +120,7 @@ public class King_Of_Fishing {
                 if(tempDir % 2 == 1) {
                     shark.direction = 1;
                 }
-                shark.x = value - ((X-1) * tempDir);
+                shark.x = (X - 1) - (value - ((X-1) * tempDir));
             }
         } else if(shark.direction == 3) {
             if(shark.y == Y-1) {
@@ -138,7 +138,7 @@ public class King_Of_Fishing {
                 if(tempDir % 2 == 1) {
                     shark.direction = 4;
                 }
-                shark.y = value - ((Y-1) * tempDir);
+                shark.y = (Y - 1) - (value - ((Y-1) * tempDir));
             }
         } else {
             // 디펜시브로 일단 걸어두겠다.
@@ -163,7 +163,6 @@ public class King_Of_Fishing {
     }
 
     static void eatingCheck() {
-        // 2중 for문...?
         for(int i=0; i<list.size(); i++) {
             for(int k=0; k<list.size(); k++) {
                 if(list.get(i).x == list.get(k).x && list.get(i).y == list.get(k).y) {
