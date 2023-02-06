@@ -3,9 +3,7 @@ package baekJoon.advanced;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 // 17143, 낚시왕, 골드1, 구현
 public class King_Of_Fishing {
@@ -85,13 +83,12 @@ public class King_Of_Fishing {
     }
 
     static void calc(Shark shark) {
-        // 열 또는 행을 한번 왔다갔다 하는데 1씩 누락된다. 즉 길이가 6인 행을 왔다갔다 왕복하는데는 10이 든다. 12 - 2로 나타낼 수 있음
         int value = 0;
         int tempDir = 0;
         if(shark.direction == 1) {
-            if(shark.x == 0) {
-                shark.direction = 2;
-            }
+//            if(shark.x == 0) {
+//                shark.direction = 2;
+//            }
             if(shark.vel > shark.x) {
                 value = shark.vel;
                 value -= shark.x;
@@ -111,9 +108,9 @@ public class King_Of_Fishing {
             }
 
         } else if(shark.direction == 2) {
-            if(shark.x == X - 1) {
-                shark.direction = 1;
-            }
+//            if(shark.x == X - 1) {
+//                shark.direction = 1;
+//            }
             if(shark.vel <= (X-1) - shark.x) {
                 shark.x += shark.vel;
             } else {
@@ -130,9 +127,9 @@ public class King_Of_Fishing {
                 }
             }
         } else if(shark.direction == 3) {
-            if(shark.y == Y-1) {
-                shark.direction = 4;
-            }
+//            if(shark.y == Y-1) {
+//                shark.direction = 4;
+//            }
             // 남은 y좌표보다 속도가 작을 경우
             // 그냥 더한 값이 좌표가 된다. 방향전환 없음
             if(shark.vel <= (Y-1) - shark.y) {
@@ -152,9 +149,9 @@ public class King_Of_Fishing {
             }
         } else {
             // 디펜시브로 일단 걸어두겠다.
-            if(shark.y == 0) {
-                shark.direction = 3;
-            }
+//            if(shark.y == 0) {
+//                shark.direction = 3;
+//            }
             if(shark.vel > shark.y) {
                 value = shark.vel;
                 value -= shark.y;
@@ -176,17 +173,55 @@ public class King_Of_Fishing {
         }
     }
 
+    static class SharkAndIndex {
+        Shark shark;
+        int index;
+
+        public SharkAndIndex(Shark s, int i) {
+            this.shark = s;
+            this.index = i;
+        }
+    }
+
     static void eatingCheck() {
+
+        List<SharkAndIndex> lsa = new ArrayList<>();
+        boolean flag = false;
         for(int i=0; i<list.size(); i++) {
             for(int k=0; k<list.size(); k++) {
                 if(i == k)
                     continue;
                 if(list.get(i).x == list.get(k).x && list.get(i).y == list.get(k).y) {
+                    flag = true;
                     if(list.get(i).size > list.get(k).size) {
-                        list.remove(k);
+                        SharkAndIndex sai = new SharkAndIndex(list.get(i), i);
+                        lsa.add(sai);
                     } else if(list.get(i).size < list.get(k).size) {
-                        list.remove(i);
+                        SharkAndIndex sai = new SharkAndIndex(list.get(k), k);
+                        lsa.add(sai);
                     }
+                }
+            }
+        }
+
+        if(flag) {
+            int tempx, tempy;
+            tempx = lsa.get(0).shark.x;
+            tempy = lsa.get(0).shark.y;
+            lsa.sort(new Comparator<SharkAndIndex>() {
+                @Override
+                public int compare(SharkAndIndex o1, SharkAndIndex o2) {
+                    if(o1.shark.x == o2.shark.x && o1.shark.y == o2.shark.y)
+                        return o1.shark.size - o2.shark.size;
+                    if(o1.shark.x == o2.shark.x)
+                        return o1.shark.y - o2.shark.y;
+                    return o1.shark.x - o2.shark.x;
+                }
+            });
+            for(int i=1; i<lsa.size(); i++) {
+                if(lsa.get(i).shark.x != tempx && lsa.get(i).shark.y != tempy) {
+                    // 좌표가 달라지는 부분에서 이전 리스트의 값을 없애면 된다.
+                    list.remove(lsa.get(i-1).index);
                 }
             }
         }
