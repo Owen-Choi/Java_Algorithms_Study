@@ -20,7 +20,7 @@ public class King_Of_Fishing {
         int vel;
         int direction;
 
-        public Shark(int x, int y, int s, int v, int d) {
+        public Shark(int x, int y, int v, int d, int s) {
             this.x = x;
             this.y = y;
             this.size = s;
@@ -99,8 +99,11 @@ public class King_Of_Fishing {
                 if(tempDir % 2 == 0) {
                     shark.direction = 2;
                 }
-                // 사고 위험 구간
-                shark.x = value - ((X-1) * tempDir);
+                if(shark.direction == 1) {
+                    shark.x = (X - 1) - (value - ((X-1) * tempDir));
+                } else {
+                    shark.x = value - ((X-1) * tempDir);
+                }
             } else {
                 // 현재 x 좌표보다 속도가 작을 경우
                 // 그냥 뺀 값이 좌표가 된다. 방향전환 없음
@@ -120,7 +123,11 @@ public class King_Of_Fishing {
                 if(tempDir % 2 == 1) {
                     shark.direction = 1;
                 }
-                shark.x = (X - 1) - (value - ((X-1) * tempDir));
+                if(shark.direction == 1) {
+                    shark.x = (X - 1) - (value - ((X-1) * tempDir));
+                } else {
+                    shark.x = (value - ((X-1) * tempDir));
+                }
             }
         } else if(shark.direction == 3) {
             if(shark.y == Y-1) {
@@ -128,7 +135,6 @@ public class King_Of_Fishing {
             }
             // 남은 y좌표보다 속도가 작을 경우
             // 그냥 더한 값이 좌표가 된다. 방향전환 없음
-            // 사고 위험구간
             if(shark.vel <= (Y-1) - shark.y) {
                 shark.y += shark.vel;
             } else {
@@ -138,7 +144,11 @@ public class King_Of_Fishing {
                 if(tempDir % 2 == 1) {
                     shark.direction = 4;
                 }
-                shark.y = (Y - 1) - (value - ((Y-1) * tempDir));
+                if(shark.direction == 4) {
+                    shark.y = (Y - 1) - (value - ((Y-1) * tempDir));
+                } else {
+                    shark.y = (value - ((Y-1) * tempDir));
+                }
             }
         } else {
             // 디펜시브로 일단 걸어두겠다.
@@ -152,8 +162,12 @@ public class King_Of_Fishing {
                 if(tempDir % 2 == 0) {
                     shark.direction = 3;
                 }
-                // 사고 위험 구간
-                shark.y = value - ((Y-1) * tempDir);
+                // 홀수인 경우는 왼쪽에서부터 세어야하고, 짝수인 경우는 오른쪽에서부터 세어야 한다.
+                if(shark.direction == 3) {
+                    shark.y = value - ((Y-1) * tempDir);
+                } else {
+                    shark.y = (Y-1) - (value - ((Y-1) * tempDir));
+                }
             } else {
                 // 현재 y 좌표보다 속도가 작을 경우
                 // 그냥 뺀 값이 좌표가 된다. 방향전환 없음
@@ -165,6 +179,8 @@ public class King_Of_Fishing {
     static void eatingCheck() {
         for(int i=0; i<list.size(); i++) {
             for(int k=0; k<list.size(); k++) {
+                if(i == k)
+                    continue;
                 if(list.get(i).x == list.get(k).x && list.get(i).y == list.get(k).y) {
                     if(list.get(i).size > list.get(k).size) {
                         list.remove(k);
