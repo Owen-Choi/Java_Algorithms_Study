@@ -23,6 +23,9 @@ public class More_Spicy {
             minHeap.add(scoville[i]);
         }
 
+        if(minHeap.peek() >= k)
+            return 0;
+
         boolean flag = false;
         while(minHeap.size() >= 2) {
             answer++;
