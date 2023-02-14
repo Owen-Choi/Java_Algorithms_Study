@@ -23,6 +23,7 @@ public class Efficient_Hacking {
 
         list = new ArrayList[N];
         flag = new boolean[N];
+        result = new ArrayList<>();
         for(int i=0; i<N; i++) {
             list[i] = new ArrayList<>();
         }
@@ -50,17 +51,34 @@ public class Efficient_Hacking {
                     }
                 }
             }
-            if(linkCount >= MAX) {
-                hash.put(i, linkCount);
+//            if(linkCount >= MAX) {
+//                hash.put(i, linkCount);
+//            }
+            if(linkCount == MAX) {
+                result.add(i + 1);
             }
-            MAX = linkCount;
+            if(linkCount > MAX) {
+                result.clear();
+                result.add(i + 1);
+                MAX = linkCount;
+            }
             queue.clear();
             clearFlag();
         }
 
-        for (Integer integer : hash.keySet()) {
-            System.out.println(integer + " " + hash.get(integer));
+        result.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1 - o2;
+            }
+        });
+
+        StringBuilder sb = new StringBuilder();
+        for(int i=0; i<result.size() - 1; i++) {
+            sb.append(result.get(i)).append(" ");
         }
+        sb.append(result.get(result.size() - 1));
+        System.out.println(sb.toString());
 
     }
 
