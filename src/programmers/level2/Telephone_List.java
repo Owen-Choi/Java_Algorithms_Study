@@ -15,6 +15,7 @@ public class Telephone_List {
         System.out.println(solution(book));
     }
 
+    // 119 97674223 1195524421
     public static boolean solution(String[] phone_book) {
         HashMap<String, Integer> hash = new HashMap<>();
         for(int i=0; i< phone_book.length; i++) {

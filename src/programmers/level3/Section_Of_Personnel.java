@@ -18,8 +18,6 @@ public class Section_Of_Personnel {
         System.out.println(solution(scores));
     }
 
-    // 두 점수 중 하나만 작은 애를 먼저 찾아서 boolean 체크 해, 걔네에 대해서만 확인해주는 for문을 돌리면 되지 않을까??
-
 
 
     public static int solution(int[][] scores) {
