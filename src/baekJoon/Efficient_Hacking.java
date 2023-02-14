@@ -109,10 +109,17 @@ public class Efficient_Hacking {
             int linkCount = 0;
             while(!queue.isEmpty()) {
                 Integer poll = queue.poll();
-                for(int k=0; k<list[poll].size(); k++) {
-                    if(!flag[list[poll].get(k)]) {
-                        queue.add(list[poll].get(k));
-                        flag[list[poll].get(k)] = true;
+//                for(int k=0; k<list[poll].size(); k++) {
+//                    if(!flag[list[poll].get(k)]) {
+//                        queue.add(list[poll].get(k));
+//                        flag[list[poll].get(k)] = true;
+//                        linkCount++;
+//                    }
+//                }
+                for (Integer integer : list[poll]) {
+                    if(!flag[integer]) {
+                        queue.add(integer);
+                        flag[integer] = false;
                         linkCount++;
                     }
                 }
@@ -121,35 +128,23 @@ public class Efficient_Hacking {
                 hash.put(i + 1, linkCount);
                 MAX = linkCount;
             }
-//            if(linkCount == MAX) {
-//                result.add(i + 1);
-//            }
-//            if(linkCount > MAX) {
-//                result.clear();
-//                result.add(i + 1);
-//                MAX = linkCount;
-//            }
+
             queue.clear();
             clearFlag();
         }
 
 
         StringBuilder sb = new StringBuilder();
-//        for(int i=0; i<result.size() - 1; i++) {
-//            if(result.get(i) == MAX)
-//                sb.append(result.get(i)).append(" ");
-//        }
         for (Integer integer : hash.keySet()) {
             if(hash.get(integer) == MAX) {
                 sb.append(integer).append(" ");
             }
         }
-        System.out.println(sb.toString().substring(0, sb.toString().length() - 1));
-
+        System.out.println(sb.toString());
     }
 
     static void clearFlag() {
-        for(int i=0; i<N; i++) {
+        for(int i=0; i< flag.length; i++) {
             flag[i] = false;
         }
     }
