@@ -4,40 +4,44 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 
 public class Electronic_Cable {
 
     static int total;
     static int[] dp;
-    static int[] map;
+    static int [][] map;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         total = Integer.parseInt(br.readLine());
         StringTokenizer st;
-
-        map = new int[500];
-        Arrays.fill(map, -1);
+        map = new int[total][2];
         for(int i=0; i<total; i++) {
             st = new StringTokenizer(br.readLine(), " ");
             int first = Integer.parseInt(st.nextToken()) - 1;
             int second = Integer.parseInt(st.nextToken()) - 1;
-            map[second] = first;
+            map[i][0] = first;
+            map[i][1] = second;
         }
 
         dp = new int[500];
 
-        // map은 B 전봇대에 해당, 즉 map[i]는 B전봇대의 i번에 연결된 A전봇대의 인덱스를 의미함.
-
+        Arrays.sort(map, new Comparator<int[]>() {
+            @Override
+            public int compare(int[] o1, int[] o2) {
+                return o1[0] - o2[0];
+            }
+        });
         // dp 시작
-        if(map[0] != -1) {
-            dp[0] = 1;
-        }
-        for(int i=1; i<500; i++) {
-            if(map[i] > map[i - 1]) {
-                dp[i] = Math.max(dp[i] + 1, dp[i - 1] + 1);
-            } else if(map[i] < map[i - 1]) {
-                dp[i]++;
+        Arrays.fill(dp, 1);
+        for(int i=0; i<total; i++) {
+            for(int k=0; k<i; k++) {
+                // A 전붓대의 입장에서, 자신보다 위에 위치하는 전선이 자신이 연결된 B 전봇대의 위치보다 더 아래쪽(더 큰 값)에 연결된다면
+                // 선이 꼬이지 않는다. 이럴 경우 dp값을 업데이트 시켜준다.
+                if(map[i][1] > map[k][1]) {
+                    dp[i] = Math.max(dp[i], dp[k] + 1);
+                }
             }
         }
 
@@ -49,13 +53,6 @@ public class Electronic_Cable {
             }
         }
 
-        // 우리는 B 전봇대를 기준으로 잡고 계산을 했지만, A 전봇대를 기준으로 잡고 계산을 하는 것이 최솟값일 경우가 있을 수도 있다.
-        // 따라서 B 전봇대를 기준으로 구한 최댓값이 전체 전깃줄의 수를 반으로 나눈 값보다 커진다면 B 전봇대를 기준으로 구하는 것이 맞지만,
-        // 그게 아니라면 A 전봇대를 기준으로 구하는 것이 맞다. 따라서 그런 경우에 한해서는 전체 전깃줄 개수에서 빼는 것이 정답이 아니라, 최댓값 그 자체가 정답이 된다.
-        if( max > total / 2) {
-            System.out.println(total - max);
-        } else {
-            System.out.println(max);
-        }
+        System.out.println(total - max);
     }
 }
