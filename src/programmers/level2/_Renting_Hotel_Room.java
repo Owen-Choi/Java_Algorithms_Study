@@ -8,8 +8,8 @@ import java.util.List;
 public class _Renting_Hotel_Room {
 
     public static void main(String[] args) {
-//        String[][] book_time = {{"15:00", "17:00"}, {"16:40", "18:20"}, {"14:20", "15:20"}, {"14:10", "19:20"}, {"18:20", "21:20"}};
-        String[][] book_time = {{"10:20", "12:30"}, {"10:20", "12:30"}, {"10:20", "12:30"}};
+        String[][] book_time = {{"15:00", "17:00"}, {"16:40", "18:20"}, {"14:20", "15:20"}, {"14:10", "19:20"}, {"18:20", "21:20"}};
+//        String[][] book_time = {{"10:20", "12:30"}, {"10:20", "12:30"}, {"10:20", "12:30"}};
         System.out.println(solution(book_time));
     }
 
@@ -30,22 +30,26 @@ public class _Renting_Hotel_Room {
         Arrays.sort(numberTime, new Comparator<int[]>() {
             @Override
             public int compare(int[] o1, int[] o2) {
-                return o1[0] - o2[0];
+                if(o1[0] == o2[0]) {
+                    return o1[1] - o2[1];
+                } else {
+                    return o1[0] - o2[0];
+                }
             }
         });
 
         rooms.add(numberTime[0][1]);
-        int min = Integer.MAX_VALUE;
+        int min;
         int minIndex = 0;
-        int count;
-        boolean flag = false;
+        boolean flag;
         for(int i=1; i< book_time.length; i++) {
             flag = false;
+            min  = Integer.MAX_VALUE;
             for(int k=0; k<rooms.size(); k++) {
                  if(rooms.get(k) <= numberTime[i][0]) {
                     // 제일 끝나는 시간이 이른 곳과 바꿔줌.
                      flag = true;
-                    if(min > rooms.get(k)) {
+                    if(min >= rooms.get(k)) {
                         min = rooms.get(k);
                         minIndex = k;
                     }
