@@ -31,6 +31,6 @@ public class Making_Line {
             list[firstMan].add(secondMan);
         }
 
-
+ 
     }
 }
