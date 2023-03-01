@@ -32,7 +32,8 @@ public class Workbook {
         }
 
         // 위상정렬 시작
-        Queue<Integer> queue = new LinkedList<>();
+//        Queue<Integer> queue = new LinkedList<>();
+        PriorityQueue<Integer> queue = new PriorityQueue<>();
         List<Integer> result = new ArrayList<>();
 
         for(int i=0; i<list.length; i++) {
@@ -41,18 +42,9 @@ public class Workbook {
             }
         }
 
-//        Comparator<Integer> c = new Comparator<>() {
-//            @Override
-//            public int compare(Integer o1, Integer o2) {
-//                return o1 - o2;
-//            }
-//        };
-
         while(!queue.isEmpty()) {
             int node = queue.poll();
             result.add(node);
-            // list[node]를 정렬하면 되려나?
-//            list[node].sort(c);
             for (Integer integer : list[node]) {
                 indegree[integer]--;
                 if(indegree[integer] == 0) {
