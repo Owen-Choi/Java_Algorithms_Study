@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Musical_Program {
 
-    // 2623번, 음악 프로그램, 위상정렬
+    // 2623번, 음악 프로그램, 골드3, 위상정렬
     static int N, M;
     static List<Integer>[] list;
     static int[] indegree;
@@ -26,19 +26,18 @@ public class Musical_Program {
         for(int i=0; i<M; i++) {
             st = new StringTokenizer(br.readLine(), " ");
             int count = Integer.parseInt(st.nextToken());
-            int[] arr = new int[count];
-            for(int l = 0; l<count; l++) {
-                arr[l] = Integer.parseInt(st.nextToken()) - 1;
-            }
+            int first = Integer.parseInt(st.nextToken()) - 1;
             for(int k=0; k<count - 1; k++) {
-                for(int v=0; v < i; v++) {
-                    list[k].add(v);
-                    indegree[v]++;
-                }
+                int second = Integer.parseInt(st.nextToken()) - 1;
+                list[first].add(second);
+                indegree[second]++;
+
+                first = second;
             }
         }
 
         Queue<Integer> queue = new LinkedList<>();
+        List<Integer> result = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
 
         for(int i=0; i< indegree.length; i++) {
@@ -49,7 +48,7 @@ public class Musical_Program {
 
         while(!queue.isEmpty()) {
             int node = queue.poll();
-            sb.append(node + 1).append('\n');
+            result.add(node);
             for (Integer integer : list[node]) {
                 indegree[integer]--;
                 if(indegree[integer] == 0) {
@@ -58,6 +57,15 @@ public class Musical_Program {
             }
         }
 
+        // 문제 핵심 사이클 체크 부분.
+        if(result.size() != N) {
+            System.out.println(0);
+            System.exit(0);
+        }
+
+        for (Integer element : result) {
+            sb.append(element + 1).append("\n");
+        }
         System.out.println(sb.substring(0, sb.length() - 1));
 
     }
