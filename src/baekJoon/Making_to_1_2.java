@@ -13,29 +13,29 @@ public class Making_to_1_2 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        dp = new int[N];
-        routeDp = new int[N];
+        dp = new int[N + 1];
+        routeDp = new int[N + 1];
 
-        for(int i=1; i<N; i++) {
+        for(int i=2; i<=N; i++) {
             dp[i] = dp[i - 1] + 1;
             routeDp[i] = i - 1;
             if(i % 3 == 0) {
+                if(dp[i/3] + 1 < dp[i])
+                    routeDp[i] = i / 3;
                 dp[i] = Math.min(dp[i], dp[i / 3] + 1);
-                routeDp[i] = i / 3;
             }
             if(i % 2 == 0) {
+                if(dp[i/2] + 1 < dp[i])
+                    routeDp[i] = i / 2;
                 dp[i] = Math.min(dp[i], dp[i / 2] + 1);
-                routeDp[i] = i / 2;
             }
         }
 
-        System.out.println(dp[N - 1]);
-        int route = N - 1;
+        System.out.println(dp[N]);
         StringBuilder sb = new StringBuilder();
-        sb.append(N).append(" ");
-        while(route > 0) {
-            sb.append(route).append(" ");
-            route = routeDp[route];
+        while(N > 0) {
+            sb.append(N).append(" ");
+            N = routeDp[N];
         }
         System.out.println(sb.toString());
     }
