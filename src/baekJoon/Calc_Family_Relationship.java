@@ -63,23 +63,5 @@ public class Calc_Family_Relationship {
         }
     }
 
-//    static void dfs(int index, int counter) {
-//        if(list.get(index).size() == 0) {
-//            return;
-//        }
-//        for (int i : list.get(index)) {
-//            if(i == t2) {
-//                counter += 2;
-//                result = counter;
-//                return;
-//            }
-//        }
-//        // 위 반복문에서 종료되지 않았다는 것은 가로(형제 자매 라인) 탐색에서 목표를 찾지 못했다는 말.
-//
-//        for (int k : list.get(index)) {
-//            // 그때부터는 연결된 다른 집안으로 넘어가서 그 집안의 형제 자매 라인을 살펴본다.
-//            dfs(k, counter);
-//        }
-//    }
 
 }
