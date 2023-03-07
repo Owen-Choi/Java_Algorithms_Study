@@ -13,9 +13,7 @@ public class Efficient_Hacking {
     // TODO 리스트의 배열보다 리스트의 리스트가 메모리를 더 적게 먹는지 공부해보기.
 //    static List<Integer>[] list;
     static ArrayList<ArrayList<Integer>> list2 = new ArrayList<>();
-    static List<Integer> result;
     static boolean[] flag;
-    static HashMap<Integer, Integer> hash = new HashMap<>();
     static int MAX = Integer.MIN_VALUE;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
