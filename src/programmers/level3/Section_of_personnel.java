@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 // 레벨3, 인사고과
-public class Section_Of_Personnel {
+public class Section_of_personnel {
 
     public static void main(String[] args) {
         int[][] scores = new int[5][2];
