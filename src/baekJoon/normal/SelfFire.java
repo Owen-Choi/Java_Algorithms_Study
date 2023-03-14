@@ -29,16 +29,16 @@ public class SelfFire {
             return o1[0] - o2[0];
         });
         int result = 0;
-        int currentDate = 0;
-        boolean[] flag = new boolean[N + 2];
-        for(int i=0; i<data.length; i++) {
-            if(data[i][0] <= N + 1 && !flag[data[i][0]] && data[i][2] >= currentDate) {
-                currentDate = data[i][0];
-                System.out.println(currentDate);
-                result += data[i][1];
-                flag[data[i][0]] = true;
-            }
+        int[] dp = new int[N + 1000];
+
+//        dp[i] = dp[data[i][0]] + data[i][1];
+        for(int k=0; k<N; k++) {
+//            for(int k=0; k<i; k++) {
+////                dp[i] = Math.max(dp[data[k][0]] + data[k][1], dp[i]);
+//                dp[data[k][0]] = Math.max(dp[data[k][2]] + data[k][1], dp[data[k][0]]);
+//            }
+            dp[data[k][0]] = Math.max(dp[data[k][2]] + data[k][1], dp[data[k][0]]);
         }
-        System.out.println(result);
+        System.out.println(Math.max(dp[N], dp[N+1]));
     }
 }
