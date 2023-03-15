@@ -14,31 +14,21 @@ public class SelfFire {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        data = new int[N][3];
         StringTokenizer st;
+        data = new int[N + 1][2];
         for(int i=0; i<N; i++) {
             st = new StringTokenizer(br.readLine(), " ");
-            data[i][0] = Integer.parseInt(st.nextToken()) + (i + 1);
+            data[i][0] = Integer.parseInt(st.nextToken());
             data[i][1] = Integer.parseInt(st.nextToken());
-            data[i][2] = i+1;
         }
-        Arrays.sort(data, (o1, o2) -> {
-            if(o1[0] == o2[0]) {
-                return o2[1] - o1[1];
-            }
-            return o1[0] - o2[0];
-        });
-        int result = 0;
         int[] dp = new int[N + 1000];
 
-//        dp[i] = dp[data[i][0]] + data[i][1];
-        for(int k=0; k<N; k++) {
-//            for(int k=0; k<i; k++) {
-////                dp[i] = Math.max(dp[data[k][0]] + data[k][1], dp[i]);
-//                dp[data[k][0]] = Math.max(dp[data[k][2]] + data[k][1], dp[data[k][0]]);
-//            }
-            dp[data[k][0]] = Math.max(dp[data[k][2]] + data[k][1], dp[data[k][0]]);
+        int maxCurrent = 0;
+        for(int k=0; k<=N; k++) {
+            dp[k] = Math.max(maxCurrent, dp[k]);
+            dp[k + data[k][0]] = Math.max(dp[k] + data[k][1], dp[k + data[k][0]]);
+            maxCurrent = Math.max(maxCurrent, dp[k]);
         }
-        System.out.println(Math.max(dp[N], dp[N+1]));
+        System.out.println(maxCurrent);
     }
 }
