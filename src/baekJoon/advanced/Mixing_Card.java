@@ -21,19 +21,30 @@ public class Mixing_Card {
 
             st = new StringTokenizer(br.readLine());
             for(int i=0; i<N; i++) {
-                S[i] = Integer.parseInt(st.nextToken());
+                P[i] = Integer.parseInt(st.nextToken());
                 value[i] = i % 3;
             }
             st = new StringTokenizer(br.readLine());
             for(int v=0; v<N; v++) {
-                P[v] = Integer.parseInt(st.nextToken());
+                S[v] = Integer.parseInt(st.nextToken());
             }
 
+        boolean flag = false;
+        for(int i=0; i<N; i++) {
+            if(P[i] != value[i]) {
+                flag = true;
+                break;
+            }
+        }
+        if(!flag) {
+            System.out.println(0);
+            System.exit(0);
+        }
         int result = 0;
         while(true) {
-            check(result);
-            mix();
             result++;
+            mix();
+            check(result);
         }
 
     }
@@ -57,7 +68,7 @@ public class Mixing_Card {
             }
         }
 
-        if(!flag && count != 0) {
+        if(!flag) {
             System.out.println(-1);
             System.exit(0);
         }
