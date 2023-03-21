@@ -52,7 +52,7 @@ public class Mixing_Card {
     static void mix() {
         Arrays.fill(previous, 0);
         for(int i=0; i<N; i++) {
-            previous[S[i]] = value[i];
+            previous[i] = value[S[i]];
         }
         for(int i=0; i<N; i++) {
             value[i] = previous[i];
