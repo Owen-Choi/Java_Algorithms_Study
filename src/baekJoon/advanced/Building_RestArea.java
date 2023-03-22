@@ -27,8 +27,8 @@ public class Building_RestArea {
     }
 
     static int binarySearch() {
-        int left = 0;
-        int right = L;
+        int left = 1;
+        int right = L - 1;
         while(left <= right) {
             int mid = (left + right) / 2;
             int count = 0;
