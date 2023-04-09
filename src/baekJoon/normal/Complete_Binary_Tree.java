@@ -3,9 +3,7 @@ package baekJoon.normal;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Complete_Binary_Tree {
 
@@ -24,6 +22,9 @@ public class Complete_Binary_Tree {
     static int[] buildings;
     static List<Integer>[] lists;
     static Node root;
+    static HashMap<Integer, Integer> hashMap = new HashMap<>();
+    static int c = 0;
+    static StringBuilder sb = new StringBuilder();
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         K = Integer.parseInt(br.readLine());
@@ -46,13 +47,15 @@ public class Complete_Binary_Tree {
         inorder(root, 0);
 
         for(int i=0; i<K; i++) {
-            System.out.print((i+1) + " 번째 : ");
             for(int k=0; k<lists[i].size(); k++) {
-                System.out.print(lists[i].get(k) + " ");
+//                System.out.print(lists[i].get(k) + " ");
+                // 어우 복잡해. 대충 <새로 만든 트리> : <인덱스> 로 구성된 hashMap에서 인덱스를 가져와서 원래 리스트에 넣어주는 작업.
+                sb.append(buildings[hashMap.get(lists[i].get(k))]).append(" ");
             }
-            System.out.println();
+            sb.append("\n");
         }
 
+        System.out.println(sb.toString());
     }
 
     static void reverse_union_find(Node current, int root, int l, int r) {
@@ -73,8 +76,10 @@ public class Complete_Binary_Tree {
             return;
         }
         inorder(node.l, level + 1);
+        hashMap.put(node.rootv, c++);
         lists[level].add(node.rootv);
         inorder(node.r, level + 1);
     }
+
 
 }
