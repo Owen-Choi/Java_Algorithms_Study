@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 // level2 연습문제, 무인도
+// https://school.programmers.co.kr/learn/courses/30/lessons/154540
 public class Island {
 
     public static void main(String[] args) throws IOException {
