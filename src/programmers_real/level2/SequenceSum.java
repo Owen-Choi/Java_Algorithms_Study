@@ -11,14 +11,14 @@ public class SequenceSum {
         int[] sequence = {1,1,1,2,3,4,5};
         int sum = 5;
 
-        int[] solution = new Solution().solution(sequence, sum);
+        int[] solution = new Solution_SequenceSum().solution(sequence, sum);
         for (int i : solution) {
             System.out.println(i);
         }
     }
 }
 
-class Solution {
+class Solution_SequenceSum {
     public int[] solution(int[] s, int target) {
         List<Info> list = new ArrayList<>();
         int left = 0, right = 0, sum = s[0];
