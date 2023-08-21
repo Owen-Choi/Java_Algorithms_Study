@@ -11,12 +11,12 @@ public class Mining {
         int [] picks = {0,1,1};
 //        String [] minerals = {"diamond", "diamond", "diamond", "iron", "iron", "diamond", "iron", "stone"};
         String[] minerals = {"diamond", "diamond", "diamond", "diamond", "diamond", "iron", "iron", "iron", "iron", "iron", "diamond"};
-        int solution = new Solution().solution(picks, minerals);
+        int solution = new MiningSolution().solution(picks, minerals);
         System.out.println(solution);
     }
 }
 
-class Solution {
+class MiningSolution {
     public int solution(int[] picks, String[] minerals) {
         int stamina = 0;
         int max = Math.min(picks[0] * 5 + picks[1] * 5 + picks[2] * 5, minerals.length);
