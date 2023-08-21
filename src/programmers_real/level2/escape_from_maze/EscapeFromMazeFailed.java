@@ -1,12 +1,12 @@
-package programmers_real.level2;
+package programmers_real.level2.escape_from_maze;
 
-public class EscapeFromMaze {
+public class EscapeFromMazeFailed {
 
     public static void main(String[] args) {
 
         String[] arr = {"SOOOL","XXXXO","OOOOO","OXXXX","OOOOE"};
 //        String[] arr = {"LOOXS","OOOOX","OOOOO","OOOOO","EOOOO"};
-        int solution = new EscapeFromMazeSolution().solution(arr);
+        int solution = new EscapeFromMazeFailedSolution().solution(arr);
         if(solution == Integer.MAX_VALUE) {
             System.out.println(-1);
         } else {
@@ -16,10 +16,9 @@ public class EscapeFromMaze {
 }
 
 
-class EscapeFromMazeSolution {
+class EscapeFromMazeFailedSolution {
     char [][] map;
     boolean[][] flag;
-    int[][] pos = {{1,-1,0,0}, {0,0,-1,1}};
     int startX, startY, endX, endY, leverX, leverY;
     final char START = 'S', LEVER = 'L', END = 'E', BORDER = 'B', WALL = 'X';
 
