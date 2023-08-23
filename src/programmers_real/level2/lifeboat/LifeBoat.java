@@ -1,4 +1,4 @@
-package programmers_real.level2;
+package programmers_real.level2.lifeboat;
 
 import java.util.Arrays;
 import java.util.Collections;
