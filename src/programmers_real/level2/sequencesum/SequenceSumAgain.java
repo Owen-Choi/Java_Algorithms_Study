@@ -7,8 +7,8 @@ import java.util.List;
 public class SequenceSumAgain {
 
     public static void main(String[] args) {
-        int[] sequence = {1,1,1,2,3,4,5};
-        int sum = 5;
+        int[] sequence = {1,1,2,2,2,3,5};
+        int sum = 4;
 
         int[] solution = new SequenceSumAgainSolution().solution(sequence, sum);
         for (int i : solution) {

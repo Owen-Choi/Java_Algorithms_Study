@@ -17,6 +17,10 @@ class LifeBoatAgainSolution {
     public int solution(int[] people, int limit) {
         int answer = 0;
         Arrays.sort(people);
+        // 최대 2명
+        // 그리디
+
+
         int left = 0, right = people.length - 1;
         int sum = 0;
         while(left <= right) {

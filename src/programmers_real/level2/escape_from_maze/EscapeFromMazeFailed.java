@@ -53,6 +53,13 @@ class EscapeFromMazeFailedSolution {
             }
         }
 
+        for(int i=0; i<=maps.length + 1; i++) {
+            for(int k=0; k<=maps[0].length() + 1; k++) {
+                System.out.print(map[i][k] + " ");
+            }
+            System.out.println();
+        }
+
         // 저장한 위치를 기반으로 백트래킹을 해준다.
         // recur(startX, startY, 0);
         // 재귀로 하지 말고, 다른 방법을 찾아보자.

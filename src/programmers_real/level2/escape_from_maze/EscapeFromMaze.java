@@ -42,6 +42,11 @@ class EscapeFromMazeSolution {
                 }
             }
         }
+        // 시작점 -> 레버 최단거리
+        // 레버 -> 종료점 최단거리
+
+        // 레버를 지나지 않아도 된다 =>
+
         int bfs = bfs(startX, startY, leverX, leverY);
         if(bfs != -1) {
             answer += bfs;

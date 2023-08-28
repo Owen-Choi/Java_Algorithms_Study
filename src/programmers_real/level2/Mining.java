@@ -7,14 +7,18 @@ import java.util.*;
 public class Mining {
 
     public static void main(String[] args) {
-//        int [] picks = {1,3,2};
-        int [] picks = {0,1,1};
-//        String [] minerals = {"diamond", "diamond", "diamond", "iron", "iron", "diamond", "iron", "stone"};
-        String[] minerals = {"diamond", "diamond", "diamond", "diamond", "diamond", "iron", "iron", "iron", "iron", "iron", "diamond"};
+        int [] picks = {1,3,2};
+//        int [] picks = {0,1,1};
+        String [] minerals = {"diamond", "diamond", "diamond", "iron", "iron", "diamond", "iron", "stone"};
+//        String[] minerals = {"diamond", "diamond", "diamond", "diamond", "diamond", "iron", "iron", "iron", "iron", "iron", "diamond"};
         int solution = new MiningSolution().solution(picks, minerals);
         System.out.println(solution);
     }
 }
+
+
+// "diamond", "diamond", "diamond", "iron", "iron"
+// "diamond", "iron", "stone"
 
 class MiningSolution {
     public int solution(int[] picks, String[] minerals) {
@@ -53,6 +57,9 @@ class MiningSolution {
                 }
             }
         });
+
+        // 좋은 곡괭이로 높은 등급의 광물을 가능한 많이 캐야 피로도가 최소가 됨
+        // 높은 등급의 광물이 몰려있는 chunk (5개씩 자른거)를 오름차순으로 정렬
 
         for (ArrayList<String> strings : chunk) {
             int pick = 0;
