@@ -1,10 +1,4 @@
 package programmers_real.level2;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class MakingBigNumber {
 
     public static void main(String[] args) {
@@ -14,8 +8,7 @@ public class MakingBigNumber {
 
 class MakingBigNumberSolution {
     public String solution(String number, int k) {
-        // 제거될 인덱스들이 모여있는 리스트
-        Map<Integer, Integer> map = new HashMap<>();
+
 
         return null;
     }
