@@ -1,4 +1,4 @@
-package programmers_real.level2;
+package programmers_real.level2.emoji_sale_event;
 
 import java.util.ArrayList;
 import java.util.Comparator;
