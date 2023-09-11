@@ -13,42 +13,46 @@ public class Archery {
     }
 }
 
+// 진짜 왜 나한테만 뭐라 그래
+
 class ArcherySolution {
     int[] g, last;
+    int[] li = new int[11];
     int max = -1;
     public int[] solution(int n, int[] info) {
-//        g = info;
-        dfs(new int[info.length], n, info);
+        g = info;
+        dfs(n);
         if(max == -1) {
             return new int[]{-1};
         }
         return last;
     }
 
-    void dfs(int[] arr, int remain, int[] info) {
+    void dfs(int remain) {
         if(remain == 0) {
             // 점수 계산
             int apeach = 0, lion = 0;
-            for(int i=0; i<info.length; i++) {
-                if(arr[i] == info[i] && info[i] == 0)
+            for(int i=0; i<g.length; i++) {
+                if(li[i] == g[i] && g[i] == 0)
                     continue;
-                if(arr[i] > info[i])
+                if(li[i] > g[i])
                     lion += (10 - i);
-                else if(arr[i] <= info[i])
+                else
                     apeach += (10 - i);
             }
             if(lion > apeach) {
                 if(lion - apeach >= max) {
-                    last = arr.clone();
+                    last = li.clone();
                     max = lion - apeach;
                 }
             }
             return;
         }
-        for(int i=0; i< info.length && info[i] >= arr[i]; i++) {
-            arr[i]++;
-            dfs(arr, remain - 1, info);
-            arr[i]--;
+
+        for(int i=0; i < g.length && g[i] >= li[i]; i++) {
+            li[i]++;
+            dfs(remain - 1);
+            li[i]--;
         }
     }
 }

@@ -60,7 +60,6 @@ class HotelSolution {
                result.set(minIndex, new Node(list.get(i).start, list.get(i).end));
            }
        }
-
         return result.size();
     }
 }
