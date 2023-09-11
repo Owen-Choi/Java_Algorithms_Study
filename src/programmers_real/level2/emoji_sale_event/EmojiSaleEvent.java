@@ -68,9 +68,10 @@ class EmojiSaleEventSolution {
         }
 
         int[] newPrice = new int[price.length];
-        for(int i=0; i<newPrice.length; i++) {
-            newPrice[i] = price[i];
-        }
+//        for(int i=0; i<newPrice.length; i++) {
+//            newPrice[i] = price[i];
+//        }
+        newPrice = price.clone();
 
         for(int i=0; i<u.length; i++) {
             if(u[i][0] <= discount) {
