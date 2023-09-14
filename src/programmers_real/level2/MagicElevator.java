@@ -2,7 +2,7 @@ package programmers_real.level2;
 
 public class MagicElevator {
     public static void main(String[] args) {
-        System.out.println(new MagicElevatorSolution().solution(15));
+        System.out.println(new MagicElevatorSolution().solution(7554));
     }
 }
 
