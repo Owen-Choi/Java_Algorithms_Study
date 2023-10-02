@@ -6,7 +6,7 @@ public class ParsingWord {
         String begin = "hit";
         String target = "cog";
         String[] words = new String[]{"hot", "dot", "dog", "lot", "log", "cog"};
-        new ParsingWordSolution().solution(begin, target, words);
+        System.out.println(new ParsingWordSolution().solution(begin, target, words));
     }
 }
 

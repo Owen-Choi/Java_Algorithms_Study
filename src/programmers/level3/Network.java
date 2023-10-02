@@ -13,21 +13,8 @@ public class Network {
 
     public static int solution(int n, int[][] computers) {
         parent = new int[n];
-        ArrayList<ArrayList<Integer>> list = new ArrayList<>();
         for(int i=0; i<n; i++) {
-            list.add(new ArrayList<>());
             parent[i] = i;
-        }
-
-
-
-        for(int i=0; i<computers.length; i++) {
-            for(int k=0; k<computers[i].length; k++) {
-                if(i != k && computers[i][k] == 1) {
-                    list.get(i).add(k);
-                    list.get(k).add(i);
-                }
-            }
         }
 
         // 로직 시작
