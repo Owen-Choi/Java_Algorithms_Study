@@ -56,23 +56,23 @@ class OsSolution {
         }
         return answer;
     }
-}
 
-class Node implements Comparable<Node>{
-    int p;
-    int c;
-    int r;
-    int i;
-    public Node(int p, int c, int r, int i) {
-        this.p = p;
-        this.c = c;
-        this.r = r;
-        this.i = i;
-    }
+    class Node implements Comparable<Node>{
+        int p;
+        int c;
+        int r;
+        int i;
+        public Node(int p, int c, int r, int i) {
+            this.p = p;
+            this.c = c;
+            this.r = r;
+            this.i = i;
+        }
 
-    @Override
-    public int compareTo(Node o) {
-        if(this.p == o.p) return this.i - o.i;
-        return this.p - o.p;
+        @Override
+        public int compareTo(Node o) {
+            if(this.p == o.p) return this.i - o.i;
+            return this.p - o.p;
+        }
     }
 }

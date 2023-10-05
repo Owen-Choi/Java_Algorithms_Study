@@ -1,4 +1,4 @@
-package programmers_real.level1;
+package programmers_real.pccp;
 
 import java.util.*;
 public class 외톨이알파벳 {
