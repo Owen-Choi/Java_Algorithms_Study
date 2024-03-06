@@ -35,7 +35,6 @@ public class _2048 {
     }
 
     public static void template(String seq, int[][] arr) {
-        // 하... clone()은 얕은 복사였다....
         int[][] clone = new int[n][n];
         for(int i=0; i<n; i++) {
             for(int k=0; k<n; k++) {
@@ -62,21 +61,9 @@ public class _2048 {
     }
 
     public static void right(int[][] arr) {
-        // 오른쪽부터 움직이며 합친다
-        // 2 2 2 -> 0 2 4
-        // 4 4 4 -> 0 4 8
-        // 8 8 8 -> 0 8 16
         int tempK, tempValue;
-        // TODO 여기 이렇게 하면 안된다. 2 0 2 같은 예외 케이스가 발생하게 된다.
-//        for(int i=0; i<n; i++) {
-//            for(int k=n-1; k>=1; k--) {
-//                if(arr[i][k-1] == arr[i][k] && arr[i][k] != 0) {
-//                    // 오른쪽 -> 왼쪽으로 이동하면서 합치기
-//                    arr[i][k] *= 2;
-//                    arr[i][k-1] = 0;
-//                }
-//            }
-//        }
+        boolean[][] flag = new boolean[n][n];
+        // TODO 여기 이렇게 하면 안된다. 2 0 2 같은 예외 케이스가 발생하게 된다. 여기도 한칸 이동이 아니라 while로 처리해야 함
         for(int i=0; i<n; i++) {
             for(int k=n-1; k>=0; k--) {
                 if(arr[i][k] != 0) {
@@ -87,26 +74,21 @@ public class _2048 {
                         arr[i][tempK-1] = 0;
                         tempK++;
                     }
+                    // 멈췄을 때 tempK가 자신과 같다면, 합치고 자신을 0으로 바꾼다.
+                    // 2 2 4 2 -> 여기서 8이 나오는 경우를 방지하기 위해서 어쩔 수 없이 boolean 배열을 둬야할 것 같다.
+                    if(tempK != n && arr[i][tempK] == tempValue && !flag[i][tempK]) {
+                        flag[i][tempK] = true;
+                        arr[i][tempK] *= 2;
+                        arr[i][tempK-1] = 0;
+                    }
                 }
             }
         }
-
     }
 
     public static void left(int[][] arr) {
-        // 왼쪽부터 움직이며 합친다
-        // 2 2 2 -> 4 2 0
-        // 4 4 4 -> 8 4 0
-        // 8 8 8 -> 16 8 0
         int tempK, tempValue;
-        for(int i=0; i<n; i++) {
-            for(int k=0; k<n-1; k++) {
-                if(arr[i][k] == arr[i][k+1]  && arr[i][k] != 0) {
-                    arr[i][k] *= 2;
-                    arr[i][k+1] = 0;
-                }
-            }
-        }
+        boolean[][] flag = new boolean[n][n];
         for(int i=0; i<n; i++) {
             for(int k=0; k<=n-1; k++) {
                 if(arr[i][k] != 0) {
@@ -117,24 +99,19 @@ public class _2048 {
                         arr[i][tempK+1] = 0;
                         tempK--;
                     }
+                    if(tempK >= 0 && arr[i][tempK] == tempValue && !flag[i][tempK]) {
+                        flag[i][tempK] = true;
+                        arr[i][tempK] *= 2;
+                        arr[i][tempK + 1] = 0;
+                    }
                 }
             }
         }
     }
 
     public static void up(int[][] arr) {
-        // 2 4 8 -> 4 8 16
-        // 2 4 8 -> 2 4 8
-        // 2 4 8 -> 0 0 0
         int tempI, tempValue;
-        for(int k=0; k<n; k++) {
-            for(int i=0; i<n-1; i++) {
-                if(arr[i][k] == arr[i+1][k] && arr[i][k] != 0) {
-                    arr[i][k] *= 2;
-                    arr[i+1][k] = 0;
-                }
-            }
-        }
+        boolean[][] flag = new boolean[n][n];
         for(int k=0; k<n; k++) {
             for(int i=0; i<=n-1; i++) {
                 if(arr[i][k] != 0) {
@@ -145,24 +122,19 @@ public class _2048 {
                         arr[tempI+1][k] = 0;
                         tempI--;
                     }
+                    if(tempI >= 0 && arr[tempI][k] == tempValue && !flag[tempI][k]) {
+                        flag[tempI][k] = true;
+                        arr[tempI][k] *= 2;
+                        arr[tempI+1][k] = 0;
+                    }
                 }
             }
         }
     }
 
     public static void down(int[][] arr) {
-        // 2 4 8 -> 0 0 0
-        // 2 4 8 -> 2 4 8
-        // 2 4 8 -> 4 8 16
         int tempI, tempValue;
-        for(int k=0; k<n; k++) {
-            for(int i=n-1; i>=1; i--) {
-                if(arr[i][k] == arr[i-1][k] && arr[i][k] != 0) {
-                    arr[i][k] *= 2;
-                    arr[i-1][k] = 0;
-                }
-            }
-        }
+        boolean[][] flag = new boolean[n][n];
         for(int k=0; k<n; k++) {
             for(int i=n-1; i>=0; i--) {
                 if(arr[i][k] != 0) {
@@ -172,6 +144,11 @@ public class _2048 {
                         arr[tempI][k] = tempValue;
                         arr[tempI-1][k] = 0;
                         tempI++;
+                    }
+                    if(tempI != n && arr[tempI][k] == tempValue && !flag[tempI][k]) {
+                        flag[tempI][k] = true;
+                        arr[tempI][k] *= 2;
+                        arr[tempI-1][k] = 0;
                     }
                 }
             }
