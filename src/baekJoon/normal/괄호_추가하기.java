@@ -14,10 +14,9 @@ public class 괄호_추가하기 {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     int n = Integer.parseInt(br.readLine());
     input = br.readLine();
-    // n/2 개의 위치에 괄호를 둘 수 있음
+    // n/2 개의 괄호가 존재
     for (int i = 0; i <= n / 2; i++) {
-      combination(0, 0, i >=5 ? i/2 + 1 : i/2, new boolean[n / 2]);
-      combination(1, 0, i >=5 ? i/2 + 1 : i/2, new boolean[n / 2]);
+      combination(0, 0, i >= 5 ? i/2 + 1 : i/2, new boolean[n]);
     }
     System.out.println(result);
   }
@@ -26,12 +25,14 @@ public class 괄호_추가하기 {
     if (depth == max) {
       calc();
       return;
-    }
-    for (int i = start; i < input.length() / 2; i+=2) {
+    } // 2 * 6 + (9 - 8) * (6 + 1) * 2 * 9 - 3
+    // 13 * 7 * 18 - 3
+    // 이렇게 2씩 더하게 되면 안된다.
+    for (int i = start; i < input.length(); i++) {
       if (!flag[i]) {
         flag[i] = true;
         list.add(i);
-        combination(i, depth + 1, max, flag);
+        combination(i + 2, depth + 1, max, flag);
         list.remove(list.size() - 1);
         flag[i] = false;
       }
