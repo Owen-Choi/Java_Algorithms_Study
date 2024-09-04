@@ -28,6 +28,11 @@ public class 점프점프 {
 //            }
 //
 //            for(int i=0; i<n; i++) {
+                    /* TODO 아래 k 반복문은 필요 없다.
+                        점프 조건도 애초에 arr[i] 범위 내에 속하는 곳에만 할 수 있는 것이기 때문에 0부터 시작하는 것도 잘못된 것이고,
+                        이 방법이 통하는 문제는 LIS 같은 문제이다.
+                     */
+
 //                for(int k=0; k<=i; k++) {
 //                    for(int j=1; j<=arr[k] && k + j < n; j++) {
 ////                        dp[k] = Math.min(dp[k] + 1, dp[k + j]);

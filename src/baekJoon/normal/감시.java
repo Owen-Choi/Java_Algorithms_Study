@@ -103,7 +103,9 @@ public class 감시 {
         }
         for(int i=0; i<n; i++) {
             for(int k=0; k<m; k++) {
-                if(clone[i][k] == 0)
+                if(clone[i][k] == 0) {
+
+                }
             }
         }
         return count;

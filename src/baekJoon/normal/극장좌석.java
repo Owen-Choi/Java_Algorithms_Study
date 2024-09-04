@@ -78,6 +78,7 @@ public class 극장좌석 {
         }
         int result = 1, prev = 0;
         for(int i=0; i<m; i++) {
+            // 여기서 dp[0] = 0이라면, result가 0이 되어버린다. 그래서 dp0]에도 1을 줘야함.
             result *= dp[vip[i] - prev - 1];
             prev = vip[i];
         }
