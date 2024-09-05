@@ -1,4 +1,4 @@
-package baekJoon.Additional_Algorithms;
+package baekJoon.algorithms;
 
 import java.util.Arrays;
 import java.util.Comparator;

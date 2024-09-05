@@ -1,4 +1,4 @@
-package baekJoon.Additional_Algorithms;
+package baekJoon.algorithms;
 
 public class SegmentTree {
     public static class SegmentTreeClass{

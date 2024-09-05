@@ -1,4 +1,4 @@
-package baekJoon.Additional_Algorithms;
+package baekJoon.algorithms;
 
 // 위상정렬 알고리즘
 // 백준 1005번 문제를 풀기 위한 선행 알고리즘

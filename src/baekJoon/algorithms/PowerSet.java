@@ -1,4 +1,4 @@
-package baekJoon.Additional_Algorithms;
+package baekJoon.algorithms;
 
 public class PowerSet {
     static int[] arr = {1,2,3,4};
