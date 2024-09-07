@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-public class Stack {
+// 이 클래스 때문에 다른 문제를 풀면서 Stack을 선언할 때마다 고통을 받았다.
+// 이름을 StackClass로 변경하겠다.
+public class StackClass {
     static int [] arr;
     static int crnt = 0;
     // 10828번
